@@ -25,12 +25,20 @@ export default function Hero() {
           Automatisez l'optimisation de votre fiche GMB, collectez des avis et
           augmentez vos clients locaux avec ReviewUp
         </p>
-        <button
-          {...CAL_ATTRS}
-          className="bg-white text-[#667eea] font-semibold px-10 py-4 rounded-full text-base hover:-translate-y-0.5 hover:shadow-2xl transition-all cursor-pointer"
-        >
-          Commencer gratuit →
-        </button>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href="#pricing"
+            className="bg-white text-[#667eea] font-semibold px-10 py-4 rounded-full text-base hover:-translate-y-0.5 hover:shadow-2xl transition-all cursor-pointer"
+          >
+            Voir les offres →
+          </a>
+          <button
+            {...CAL_ATTRS}
+            className="border-2 border-white/60 text-white font-medium px-8 py-4 rounded-full text-base hover:bg-white/10 transition-all cursor-pointer"
+          >
+            Réserver une démo
+          </button>
+        </div>
       </div>
     </section>
   );
