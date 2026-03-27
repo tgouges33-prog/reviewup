@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     return Response.json({ error: "Plan invalide" }, { status: 400 });
   }
 
-  const appUrl = process.env.APP_URL || "https://reviewup-three.vercel.app";
+  const appUrl = "https://reviewup-three.vercel.app";
   const secretKey = process.env.STRIPE_SECRET_KEY!;
 
   const params = new URLSearchParams({
