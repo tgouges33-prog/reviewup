@@ -1,12 +1,8 @@
 export const runtime = "nodejs";
 
-import { stripe, PLANS, type PlanKey } from "@/lib/stripe";
-import { createClient } from "@/lib/supabase/server";
+import { PLANS, type PlanKey } from "@/lib/stripe";
 
 export async function POST(request: Request) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
   const { plan } = await request.json() as { plan: PlanKey };
 
   if (!PLANS[plan]) {
@@ -14,27 +10,39 @@ export async function POST(request: Request) {
   }
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL!;
+  const secretKey = process.env.STRIPE_SECRET_KEY!;
+
+  const params = new URLSearchParams({
+    mode: "subscription",
+    "payment_method_types[0]": "card",
+    "line_items[0][price]": PLANS[plan].priceId,
+    "line_items[0][quantity]": "1",
+    success_url: `${appUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${appUrl}/#pricing`,
+    locale: "fr",
+    "metadata[plan]": plan,
+  });
 
   try {
-    const session = await stripe.checkout.sessions.create({
-      mode: "subscription",
-      payment_method_types: ["card"],
-      line_items: [{ price: PLANS[plan].priceId, quantity: 1 }],
-      success_url: `${appUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${appUrl}/#pricing`,
-      locale: "fr",
-      ...(user?.email && {
-        customer_email: user.email,
-      }),
-      metadata: {
-        plan,
-        userId: user?.id ?? "",
+    const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${secretKey}`,
+        "Content-Type": "application/x-www-form-urlencoded",
       },
+      body: params.toString(),
     });
 
-    return Response.json({ url: session.url });
+    const data = await res.json() as any;
+
+    if (!res.ok) {
+      console.error("Stripe API error:", data.error?.message);
+      return Response.json({ error: data.error?.message }, { status: 500 });
+    }
+
+    return Response.json({ url: data.url });
   } catch (error: any) {
-    console.error("Stripe error:", error.message);
+    console.error("Fetch error:", error.message);
     return Response.json({ error: error.message }, { status: 500 });
   }
 }
