@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+
 import { stripe, PLANS, type PlanKey } from "@/lib/stripe";
 import { createClient } from "@/lib/supabase/server";
 
