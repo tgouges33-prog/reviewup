@@ -36,8 +36,8 @@ export async function POST(request: Request) {
     const data = await res.json() as any;
 
     if (!res.ok) {
-      console.error("Stripe API error:", JSON.stringify(data));
-      return Response.json({ error: data.error?.message, detail: data.error }, { status: 500 });
+      console.error("Stripe API error:", data.error?.message);
+      return Response.json({ error: data.error?.message }, { status: 500 });
     }
 
     return Response.json({ url: data.url });
