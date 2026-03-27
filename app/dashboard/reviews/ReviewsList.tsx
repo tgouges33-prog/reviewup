@@ -35,14 +35,16 @@ export default function ReviewsList() {
         }),
       });
       const data = await res.json();
-      if (data.response) {
+      if (!res.ok) {
+        alert(`Erreur : ${data.error || res.statusText}`);
+      } else if (data.response) {
         setReviews((prev) =>
           prev.map((r) => r.id === review.id ? { ...r, response: data.response } : r)
         );
         setEditingId(review.id);
       }
-    } catch {
-      alert("Erreur lors de la génération. Réessayez.");
+    } catch (e: any) {
+      alert(`Erreur réseau : ${e.message}`);
     }
     setGenerating(null);
   }
