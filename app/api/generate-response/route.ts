@@ -1,8 +1,8 @@
-import Anthropic from "@anthropic-ai/sdk";
+import Groq from "groq-sdk";
 import { getSystemPrompt, type BusinessType } from "@/lib/business-prompts";
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY!,
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY!,
 });
 
 export async function POST(request: Request) {
@@ -24,18 +24,19 @@ Note : ${"★".repeat(stars)}${"☆".repeat(5 - stars)} (${stars}/5)
 Avis : "${reviewText}"`;
 
   try {
-    const message = await anthropic.messages.create({
-      model: "claude-sonnet-4-6",
+    const completion = await groq.chat.completions.create({
+      model: "llama-3.1-70b-versatile",
       max_tokens: 300,
-      messages: [{ role: "user", content: userMessage }],
-      system: systemPrompt,
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userMessage },
+      ],
     });
 
-    const response =
-      message.content[0].type === "text" ? message.content[0].text : "";
+    const response = completion.choices[0]?.message?.content ?? "";
     return Response.json({ response });
   } catch (error: any) {
-    console.error("Anthropic error:", error.message);
+    console.error("Groq error:", error.message);
     return Response.json({ error: error.message }, { status: 500 });
   }
 }
