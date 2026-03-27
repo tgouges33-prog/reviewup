@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     "payment_method_types[0]": "card",
     "line_items[0][price]": PLANS[plan].priceId,
     "line_items[0][quantity]": "1",
-    success_url: `${appUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
+    success_url: `${appUrl}/success`,
     cancel_url: `${appUrl}/#pricing`,
     locale: "fr",
     "metadata[plan]": plan,
