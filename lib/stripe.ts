@@ -7,12 +7,12 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export const PLANS = {
   essentiel: {
     name: "Essentiel",
-    priceId: process.env.STRIPE_PRICE_ESSENTIEL!,
+    priceId: process.env.STRIPE_PRICE_PRO!,
     price: 99,
   },
   pro: {
     name: "Professionnel",
-    priceId: process.env.STRIPE_PRICE_PRO!,
+    priceId: process.env.STRIPE_PRICE_ESSENTIEL!,
     price: 169,
   },
 } as const;
