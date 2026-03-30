@@ -22,7 +22,7 @@ const plans = [
   {
     key: "pro",
     name: "Professionnel",
-    price: "149",
+    price: "169",
     subtitle: "Pour les agences & multi-établissements",
     featured: true,
     cta: "Essayer maintenant →",

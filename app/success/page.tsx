@@ -13,19 +13,18 @@ export default function SuccessPage() {
         <h1 className="text-2xl font-bold text-gray-900 mb-3">
           Paiement confirmé !
         </h1>
-        <p className="text-gray-500 mb-8">
-          Bienvenue sur ReviewUp. Votre abonnement est actif.
-          Connectez maintenant votre fiche Google My Business.
+        <p className="text-gray-500 mb-2">
+          Créez votre compte avec <strong>la même adresse email</strong> que vous avez utilisée pour payer.
+        </p>
+        <p className="text-gray-400 text-sm mb-8">
+          Votre abonnement sera automatiquement activé.
         </p>
         <Link
-          href="/dashboard"
+          href="/login"
           className="block w-full py-3 rounded-full font-semibold text-white text-sm hover:-translate-y-0.5 hover:shadow-lg transition-all"
           style={{ background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" }}
         >
-          Accéder au dashboard →
-        </Link>
-        <Link href="/" className="block mt-4 text-sm text-gray-400 hover:text-gray-600">
-          Retour à l'accueil
+          Créer mon compte →
         </Link>
       </div>
     </div>

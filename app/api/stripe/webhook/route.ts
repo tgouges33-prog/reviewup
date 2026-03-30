@@ -23,18 +23,16 @@ export async function POST(request: Request) {
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as any;
-    const userId = session.metadata?.userId;
     const plan = session.metadata?.plan;
+    const email = session.customer_details?.email ?? null;
 
-    if (userId) {
-      await supabase.from("subscriptions").upsert({
-        user_id: userId,
-        stripe_customer_id: session.customer,
-        stripe_subscription_id: session.subscription,
-        plan,
-        status: "active",
-      });
-    }
+    await supabase.from("subscriptions").upsert({
+      stripe_customer_id: session.customer,
+      stripe_subscription_id: session.subscription,
+      plan,
+      status: "active",
+      email,
+    });
   }
 
   if (event.type === "customer.subscription.deleted") {

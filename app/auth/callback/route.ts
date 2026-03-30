@@ -8,8 +8,17 @@ export async function GET(request: Request) {
 
   if (code) {
     const supabase = await createClient();
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
-    if (!error) {
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+    if (!error && data.session) {
+      const { provider_token, provider_refresh_token, user } = data.session;
+      if (provider_token) {
+        await supabase.from("user_tokens").upsert({
+          user_id: user.id,
+          access_token: provider_token,
+          refresh_token: provider_refresh_token ?? null,
+          updated_at: new Date().toISOString(),
+        });
+      }
       return NextResponse.redirect(`${origin}${next}`);
     }
   }
