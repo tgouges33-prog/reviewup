@@ -13,7 +13,7 @@ export const PLANS = {
   pro: {
     name: "Professionnel",
     priceId: process.env.STRIPE_PRICE_PRO!,
-    price: 149,
+    price: 169,
   },
 } as const;
 

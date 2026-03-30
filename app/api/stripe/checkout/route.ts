@@ -1,6 +1,7 @@
 export const runtime = "nodejs";
 
 import { PLANS, type PlanKey } from "@/lib/stripe";
+import { createClient } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
   const { plan } = await request.json() as { plan: PlanKey };
@@ -9,7 +10,14 @@ export async function POST(request: Request) {
     return Response.json({ error: "Plan invalide" }, { status: 400 });
   }
 
-  const appUrl = "https://reviewup-three.vercel.app";
+  const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+
+  if (!session) {
+    return Response.json({ error: "Non authentifié" }, { status: 401 });
+  }
+
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://reviewup-three.vercel.app";
   const secretKey = process.env.STRIPE_SECRET_KEY!;
 
   const params = new URLSearchParams({
@@ -21,6 +29,9 @@ export async function POST(request: Request) {
     cancel_url: `${appUrl}/#pricing`,
     locale: "fr",
     "metadata[plan]": plan,
+    "metadata[userId]": session.user.id,
+    "subscription_data[metadata][plan]": plan,
+    "subscription_data[metadata][userId]": session.user.id,
   });
 
   try {
