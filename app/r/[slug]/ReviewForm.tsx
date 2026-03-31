@@ -11,7 +11,7 @@ type LinkData = {
   primary_color: string | null;
 };
 
-export default function ReviewForm({ link }: { link: LinkData }) {
+export default function ReviewForm({ link, source }: { link: LinkData; source: string }) {
   const color = link.primary_color || "#667eea";
   const gradient = `linear-gradient(135deg, ${color}, ${color}cc)`;
 
@@ -132,6 +132,13 @@ export default function ReviewForm({ link }: { link: LinkData }) {
                 rel="noopener noreferrer"
                 className="block w-full py-3 rounded-full font-semibold text-sm text-white cursor-pointer hover:-translate-y-0.5 transition-all mb-3"
                 style={{ background: gradient }}
+                onClick={() => {
+                  fetch("/api/track", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ link_id: link.id, event_type: "google_click", source }),
+                  });
+                }}
               >
                 Laisser un avis sur Google →
               </a>

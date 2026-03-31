@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type ReviewLink = {
   id: string;
@@ -27,10 +27,26 @@ export default function CollectClient({
   const [notificationEmail, setNotificationEmail] = useState(initialLink?.notification_email ?? "");
   const [saving, setSaving] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [stats, setStats] = useState({ views: 0, qr: 0, link: 0, google: 0 });
+
+  useEffect(() => {
+    if (!initialLink) return;
+    fetch("/api/track")
+      .then((r) => r.json())
+      .then((data) => {
+        const events = data.events ?? [];
+        setStats({
+          views: events.filter((e: any) => e.event_type === "view").length,
+          qr: events.filter((e: any) => e.event_type === "view" && e.source === "qr").length,
+          link: events.filter((e: any) => e.event_type === "view" && e.source === "link").length,
+          google: events.filter((e: any) => e.event_type === "google_click").length,
+        });
+      });
+  }, [initialLink]);
 
   const appUrl = typeof window !== "undefined" ? window.location.origin : "https://reviewup-three.vercel.app";
   const collectUrl = link ? `${appUrl}/r/${link.slug}` : null;
-  const qrUrl = collectUrl ? `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(collectUrl)}` : null;
+  const qrUrl = collectUrl ? `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(collectUrl + "?src=qr")}` : null;
 
   async function handleSave() {
     if (!businessName.trim()) return;
@@ -167,6 +183,27 @@ export default function CollectClient({
                 style={{ background: "linear-gradient(135deg, #667eea, #764ba2)" }}>
                 Télécharger le QR code →
               </a>
+            </div>
+
+            {/* Stats performances */}
+            <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+              <h2 className="font-semibold text-gray-900 mb-4">Performances</h2>
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  { label: "Visites totales", value: stats.views, icon: "👁️" },
+                  { label: "Via QR code", value: stats.qr, icon: "📲" },
+                  { label: "Via lien", value: stats.link, icon: "🔗" },
+                  { label: "Clics Google", value: stats.google, icon: "⭐",
+                    sub: stats.views > 0 ? `${Math.round((stats.google / stats.views) * 100)}% conversion` : null },
+                ].map((s) => (
+                  <div key={s.label} className="bg-[#f8f9ff] rounded-xl p-4 text-center">
+                    <div className="text-xl mb-1">{s.icon}</div>
+                    <p className="text-2xl font-extrabold text-gray-900">{s.value}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{s.label}</p>
+                    {s.sub && <p className="text-xs text-[#667eea] font-medium mt-0.5">{s.sub}</p>}
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Aperçu */}

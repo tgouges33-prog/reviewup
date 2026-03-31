@@ -1,8 +1,15 @@
 import { createClient } from "@/lib/supabase/server";
 import ReviewForm from "./ReviewForm";
 
-export default async function ReviewPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ReviewPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ src?: string }>;
+}) {
   const { slug } = await params;
+  const { src } = await searchParams;
   const supabase = await createClient();
 
   const { data: link } = await supabase
@@ -10,6 +17,15 @@ export default async function ReviewPage({ params }: { params: Promise<{ slug: s
     .select("id, business_name, google_review_url, logo_url, primary_color")
     .eq("slug", slug)
     .single();
+
+  // Tracker la visite
+  if (link) {
+    await supabase.from("link_events").insert({
+      link_id: link.id,
+      event_type: "view",
+      source: src === "qr" ? "qr" : "link",
+    });
+  }
 
   if (!link) {
     return (
@@ -23,5 +39,5 @@ export default async function ReviewPage({ params }: { params: Promise<{ slug: s
     );
   }
 
-  return <ReviewForm link={link} />;
+  return <ReviewForm link={link} source={src ?? "link"} />;
 }
