@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { BUSINESS_LABELS, type BusinessType } from "@/lib/business-prompts";
 import Link from "next/link";
+import ReconnectGoogleButton from "@/components/ReconnectGoogleButton";
 
 type Review = {
   id: string;
@@ -141,13 +142,7 @@ export default function ReviewsList() {
         <p className="text-gray-500 text-sm mb-6">
           Votre session Google a expiré. Reconnectez votre compte pour accéder à vos avis.
         </p>
-        <Link
-          href="/login"
-          className="inline-block px-6 py-3 rounded-full text-white font-semibold text-sm hover:-translate-y-0.5 transition-all"
-          style={{ background: "linear-gradient(135deg, #667eea, #764ba2)" }}
-        >
-          Reconnecter mon compte Google →
-        </Link>
+        <ReconnectGoogleButton />
       </div>
     );
   }

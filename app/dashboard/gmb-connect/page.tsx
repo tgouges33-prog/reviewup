@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { getAccounts, getLocations } from "@/lib/gmb";
 import Link from "next/link";
+import ReconnectGoogleButton from "@/components/ReconnectGoogleButton";
 
 export default async function GmbConnectPage() {
   const supabase = await createClient();
@@ -42,23 +43,14 @@ export default async function GmbConnectPage() {
           <p className="text-gray-500 text-sm mb-6">
             Connectez-vous avec Google pour accéder à vos fiches GMB et activer l'automatisation.
           </p>
-          <Link
-            href="/login"
-            className="inline-block px-6 py-3 rounded-full text-white font-semibold text-sm hover:-translate-y-0.5 transition-all"
-            style={{ background: "linear-gradient(135deg, #667eea, #764ba2)" }}
-          >
-            Se connecter avec Google →
-          </Link>
+          <ReconnectGoogleButton label="Se connecter avec Google →" />
         </div>
       ) : gmbError ? (
         <div className="bg-white rounded-xl border border-orange-200 shadow-sm p-8 text-center max-w-lg">
           <div className="text-4xl mb-3">🔄</div>
           <p className="font-semibold text-gray-900 mb-1">Session Google expirée</p>
           <p className="text-sm text-gray-500 mb-4">Reconnectez-vous avec Google pour accéder à vos fiches GMB.</p>
-          <Link href="/login" className="inline-block px-5 py-2.5 rounded-full text-white text-sm font-medium hover:-translate-y-0.5 transition-all"
-            style={{ background: "linear-gradient(135deg, #667eea, #764ba2)" }}>
-            Reconnecter mon compte →
-          </Link>
+          <ReconnectGoogleButton />
         </div>
       ) : (
         <div className="space-y-5">
