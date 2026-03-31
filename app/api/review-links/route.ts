@@ -32,7 +32,9 @@ export async function POST(request: Request) {
   const { data: { session } } = await supabase.auth.getSession();
   if (!session) return Response.json({ error: "Non authentifié" }, { status: 401 });
 
-  const { business_name, google_review_url } = await request.json();
+  const { business_name, google_review_url, logo_url, primary_color, notification_email } = await request.json();
+
+  const fields = { business_name, google_review_url, logo_url, primary_color, notification_email };
 
   // Vérifier si un lien existe déjà
   const { data: existing } = await supabase
@@ -45,7 +47,7 @@ export async function POST(request: Request) {
     // Mettre à jour
     const { data, error } = await supabase
       .from("review_links")
-      .update({ business_name, google_review_url })
+      .update(fields)
       .eq("id", existing.id)
       .select()
       .single();
@@ -57,7 +59,7 @@ export async function POST(request: Request) {
   const slug = generateSlug(business_name || "mon-etablissement");
   const { data, error } = await supabase
     .from("review_links")
-    .insert({ user_id: session.user.id, slug, business_name, google_review_url })
+    .insert({ user_id: session.user.id, slug, ...fields })
     .select()
     .single();
 

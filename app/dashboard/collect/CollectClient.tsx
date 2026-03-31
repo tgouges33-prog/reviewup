@@ -7,6 +7,9 @@ type ReviewLink = {
   slug: string;
   business_name: string;
   google_review_url: string;
+  logo_url: string | null;
+  primary_color: string | null;
+  notification_email: string | null;
 };
 
 export default function CollectClient({
@@ -19,6 +22,9 @@ export default function CollectClient({
   const [link, setLink] = useState<ReviewLink | null>(initialLink);
   const [businessName, setBusinessName] = useState(initialLink?.business_name ?? defaultBusinessName);
   const [googleUrl, setGoogleUrl] = useState(initialLink?.google_review_url ?? "");
+  const [logoUrl, setLogoUrl] = useState(initialLink?.logo_url ?? "");
+  const [primaryColor, setPrimaryColor] = useState(initialLink?.primary_color ?? "#667eea");
+  const [notificationEmail, setNotificationEmail] = useState(initialLink?.notification_email ?? "");
   const [saving, setSaving] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -32,7 +38,13 @@ export default function CollectClient({
     const res = await fetch("/api/review-links", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ business_name: businessName, google_review_url: googleUrl }),
+      body: JSON.stringify({
+        business_name: businessName,
+        google_review_url: googleUrl,
+        logo_url: logoUrl || null,
+        primary_color: primaryColor,
+        notification_email: notificationEmail || null,
+      }),
     });
     const data = await res.json();
     if (data.link) setLink(data.link);
@@ -56,61 +68,65 @@ export default function CollectClient({
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Nom de l'établissement</label>
-              <input
-                type="text"
-                value={businessName}
-                onChange={(e) => setBusinessName(e.target.value)}
+              <input type="text" value={businessName} onChange={(e) => setBusinessName(e.target.value)}
                 placeholder="Ex : Boulangerie Martin"
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#667eea] focus:ring-2 focus:ring-[#667eea]/20 transition"
-              />
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#667eea] focus:ring-2 focus:ring-[#667eea]/20 transition" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                Lien Google vers vos avis
-                <span className="text-gray-400 font-normal ml-1">(pour rediriger les avis ≥ 4 ★)</span>
+                Lien Google avis
+                <span className="text-gray-400 font-normal ml-1">(pour rediriger les ≥ 4 ★)</span>
               </label>
-              <input
-                type="url"
-                value={googleUrl}
-                onChange={(e) => setGoogleUrl(e.target.value)}
+              <input type="url" value={googleUrl} onChange={(e) => setGoogleUrl(e.target.value)}
                 placeholder="https://g.page/r/votre-fiche/review"
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#667eea] focus:ring-2 focus:ring-[#667eea]/20 transition"
-              />
-              <p className="text-xs text-gray-400 mt-1">
-                Trouvez ce lien dans Google Maps → votre fiche → "Demander des avis"
-              </p>
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#667eea] focus:ring-2 focus:ring-[#667eea]/20 transition" />
+              <p className="text-xs text-gray-400 mt-1">Google Maps → votre fiche → "Demander des avis"</p>
             </div>
-            <button
-              onClick={handleSave}
-              disabled={saving || !businessName.trim()}
-              className="w-full py-3 rounded-full font-semibold text-sm text-white cursor-pointer hover:-translate-y-0.5 transition-all disabled:opacity-60"
-              style={{ background: "linear-gradient(135deg, #667eea, #764ba2)" }}
-            >
-              {saving ? "Enregistrement..." : link ? "Mettre à jour" : "Générer mon lien →"}
-            </button>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                Email de notification
+                <span className="text-gray-400 font-normal ml-1">(reçoit les avis négatifs ≤ 3 ★)</span>
+              </label>
+              <input type="email" value={notificationEmail} onChange={(e) => setNotificationEmail(e.target.value)}
+                placeholder="vous@exemple.com"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#667eea] focus:ring-2 focus:ring-[#667eea]/20 transition" />
+            </div>
           </div>
         </div>
 
-        {/* Comment ça marche */}
+        {/* Marque blanche */}
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-          <h2 className="font-semibold text-gray-900 mb-4">Comment ça marche</h2>
-          <div className="space-y-3">
-            {[
-              { icon: "1️⃣", text: "Partagez le lien ou QR code à vos clients" },
-              { icon: "2️⃣", text: "Le client note son expérience (1 à 5 étoiles)" },
-              { icon: "⭐", text: "Note ≥ 4 → redirigé vers Google pour laisser un avis public" },
-              { icon: "🔒", text: "Note ≤ 3 → feedback privé envoyé uniquement à vous" },
-            ].map((s) => (
-              <div key={s.icon} className="flex items-start gap-3 text-sm text-gray-600">
-                <span className="text-base flex-shrink-0">{s.icon}</span>
-                <span>{s.text}</span>
+          <h2 className="font-semibold text-gray-900 mb-1">Personnalisation (marque blanche)</h2>
+          <p className="text-xs text-gray-400 mb-4">Vos clients verront uniquement votre marque, pas ReviewUp.</p>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">URL de votre logo</label>
+              <input type="url" value={logoUrl} onChange={(e) => setLogoUrl(e.target.value)}
+                placeholder="https://votre-site.com/logo.png"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#667eea] focus:ring-2 focus:ring-[#667eea]/20 transition" />
+              <p className="text-xs text-gray-400 mt-1">Hébergez votre logo sur votre site ou un service comme Cloudinary</p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Couleur principale</label>
+              <div className="flex items-center gap-3">
+                <input type="color" value={primaryColor} onChange={(e) => setPrimaryColor(e.target.value)}
+                  className="w-12 h-12 rounded-xl border border-gray-300 cursor-pointer p-1" />
+                <input type="text" value={primaryColor} onChange={(e) => setPrimaryColor(e.target.value)}
+                  className="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#667eea] transition" />
+                <div className="w-10 h-10 rounded-xl flex-shrink-0" style={{ background: primaryColor }} />
               </div>
-            ))}
+            </div>
           </div>
         </div>
+
+        <button onClick={handleSave} disabled={saving || !businessName.trim()}
+          className="w-full py-3 rounded-full font-semibold text-sm text-white cursor-pointer hover:-translate-y-0.5 transition-all disabled:opacity-60"
+          style={{ background: "linear-gradient(135deg, #667eea, #764ba2)" }}>
+          {saving ? "Enregistrement..." : link ? "Mettre à jour" : "Générer mon lien →"}
+        </button>
       </div>
 
-      {/* Lien + QR code */}
+      {/* Lien + QR code + aperçu */}
       <div className="space-y-5">
         {!link ? (
           <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-10 text-center text-gray-400">
@@ -123,27 +139,20 @@ export default function CollectClient({
               <h2 className="font-semibold text-gray-900 mb-4">Votre lien unique</h2>
               <div className="flex items-center gap-3 bg-[#f8f9ff] rounded-xl p-4 border border-[#667eea]/20">
                 <p className="flex-1 text-sm text-[#667eea] font-medium truncate">{collectUrl}</p>
-                <button
-                  onClick={handleCopy}
+                <button onClick={handleCopy}
                   className="px-4 py-2 rounded-full text-sm font-medium text-white flex-shrink-0 cursor-pointer hover:-translate-y-0.5 transition-all"
-                  style={{ background: "linear-gradient(135deg, #667eea, #764ba2)" }}
-                >
+                  style={{ background: "linear-gradient(135deg, #667eea, #764ba2)" }}>
                   {copied ? "✓ Copié !" : "Copier"}
                 </button>
               </div>
               <div className="flex gap-3 mt-3">
-                <a
-                  href={`https://wa.me/?text=${encodeURIComponent(`Laissez-nous un avis : ${collectUrl}`)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 text-center py-2.5 rounded-full text-sm border border-gray-200 text-gray-600 hover:border-[#667eea] hover:text-[#667eea] transition-all"
-                >
+                <a href={`https://wa.me/?text=${encodeURIComponent(`Laissez-nous un avis : ${collectUrl}`)}`}
+                  target="_blank" rel="noopener noreferrer"
+                  className="flex-1 text-center py-2.5 rounded-full text-sm border border-gray-200 text-gray-600 hover:border-[#667eea] hover:text-[#667eea] transition-all">
                   📲 WhatsApp
                 </a>
-                <a
-                  href={`mailto:?subject=Votre avis compte pour nous&body=Bonjour, merci de nous laisser un avis ici : ${collectUrl}`}
-                  className="flex-1 text-center py-2.5 rounded-full text-sm border border-gray-200 text-gray-600 hover:border-[#667eea] hover:text-[#667eea] transition-all"
-                >
+                <a href={`mailto:?subject=Votre avis compte pour nous&body=Bonjour, merci de nous laisser un avis ici : ${collectUrl}`}
+                  className="flex-1 text-center py-2.5 rounded-full text-sm border border-gray-200 text-gray-600 hover:border-[#667eea] hover:text-[#667eea] transition-all">
                   📧 Email
                 </a>
               </div>
@@ -151,21 +160,26 @@ export default function CollectClient({
 
             <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 text-center">
               <h2 className="font-semibold text-gray-900 mb-4">QR Code</h2>
-              {qrUrl && (
-                <img
-                  src={qrUrl}
-                  alt="QR Code"
-                  className="w-40 h-40 mx-auto rounded-xl border border-gray-100"
-                />
-              )}
-              <p className="text-xs text-gray-400 mt-3 mb-4">À imprimer et afficher en caisse, sur une table ou à la réception</p>
-              <a
-                href={qrUrl ?? "#"}
-                download="qr-code-avis.png"
+              {qrUrl && <img src={qrUrl} alt="QR Code" className="w-40 h-40 mx-auto rounded-xl border border-gray-100" />}
+              <p className="text-xs text-gray-400 mt-3 mb-4">À imprimer en caisse, sur une table ou à la réception</p>
+              <a href={qrUrl ?? "#"} download="qr-code-avis.png"
                 className="inline-block px-5 py-2.5 rounded-full text-sm font-medium text-white hover:-translate-y-0.5 transition-all"
-                style={{ background: "linear-gradient(135deg, #667eea, #764ba2)" }}
-              >
+                style={{ background: "linear-gradient(135deg, #667eea, #764ba2)" }}>
                 Télécharger le QR code →
+              </a>
+            </div>
+
+            {/* Aperçu */}
+            <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+              <h2 className="font-semibold text-gray-900 mb-3">Aperçu de la page client</h2>
+              <div className="rounded-xl p-6 text-center text-white text-sm font-medium" style={{ background: `linear-gradient(135deg, ${primaryColor}, ${primaryColor}cc)` }}>
+                <p className="font-bold text-lg">{businessName}</p>
+                <p className="opacity-80 mt-1 text-sm">★ ★ ★ ★ ★</p>
+                <p className="opacity-70 text-xs mt-2">Page de collecte d'avis</p>
+              </div>
+              <a href={collectUrl ?? "#"} target="_blank" rel="noopener noreferrer"
+                className="block text-center text-xs text-[#667eea] hover:underline mt-3">
+                Voir la page →
               </a>
             </div>
           </>
