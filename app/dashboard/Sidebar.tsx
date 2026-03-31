@@ -6,9 +6,10 @@ import { createClient } from "@/lib/supabase/client";
 
 const NAV = [
   { href: "/dashboard", icon: "📊", label: "Vue générale" },
-  { href: "/dashboard/gmb", icon: "🏢", label: "Ma fiche GMB" },
-  { href: "/dashboard/reviews", icon: "⭐", label: "Avis" },
+  { href: "/dashboard/optimization", icon: "🚀", label: "Optimisation GMB" },
+  { href: "/dashboard/reviews", icon: "⭐", label: "Avis & Feedbacks" },
   { href: "/dashboard/analytics", icon: "📈", label: "Analytics" },
+  { href: "/dashboard/gmb", icon: "🏢", label: "Ma fiche GMB" },
   { href: "/dashboard/gmb-connect", icon: "🔗", label: "Connexion GMB" },
   { href: "/dashboard/settings", icon: "⚙️", label: "Paramètres" },
 ];
