@@ -135,8 +135,19 @@ export default function ReviewsList() {
 
   if (fetchError) {
     return (
-      <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-red-600 text-sm">
-        Erreur : {fetchError}
+      <div className="bg-white rounded-xl border border-orange-200 shadow-sm p-10 text-center max-w-lg mx-auto">
+        <div className="text-5xl mb-4">🔄</div>
+        <h2 className="font-semibold text-gray-900 text-lg mb-2">Reconnexion Google requise</h2>
+        <p className="text-gray-500 text-sm mb-6">
+          Votre session Google a expiré. Reconnectez votre compte pour accéder à vos avis.
+        </p>
+        <Link
+          href="/login"
+          className="inline-block px-6 py-3 rounded-full text-white font-semibold text-sm hover:-translate-y-0.5 transition-all"
+          style={{ background: "linear-gradient(135deg, #667eea, #764ba2)" }}
+        >
+          Reconnecter mon compte Google →
+        </Link>
       </div>
     );
   }

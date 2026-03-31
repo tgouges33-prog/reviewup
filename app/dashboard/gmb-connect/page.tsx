@@ -51,8 +51,14 @@ export default async function GmbConnectPage() {
           </Link>
         </div>
       ) : gmbError ? (
-        <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-red-600 text-sm">
-          Erreur GMB : {gmbError}
+        <div className="bg-white rounded-xl border border-orange-200 shadow-sm p-8 text-center max-w-lg">
+          <div className="text-4xl mb-3">🔄</div>
+          <p className="font-semibold text-gray-900 mb-1">Session Google expirée</p>
+          <p className="text-sm text-gray-500 mb-4">Reconnectez-vous avec Google pour accéder à vos fiches GMB.</p>
+          <Link href="/login" className="inline-block px-5 py-2.5 rounded-full text-white text-sm font-medium hover:-translate-y-0.5 transition-all"
+            style={{ background: "linear-gradient(135deg, #667eea, #764ba2)" }}>
+            Reconnecter mon compte →
+          </Link>
         </div>
       ) : (
         <div className="space-y-5">
