@@ -18,6 +18,7 @@ export default function ReviewForm({ link, source }: { link: LinkData; source: s
   const [stars, setStars] = useState(0);
   const [hover, setHover] = useState(0);
   const [comment, setComment] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
   const [step, setStep] = useState<"rating" | "comment" | "redirect" | "thanks">("rating");
   const [submitting, setSubmitting] = useState(false);
 
@@ -26,7 +27,12 @@ export default function ReviewForm({ link, source }: { link: LinkData; source: s
     await fetch("/api/feedbacks", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ link_id: link.id, stars, comment: skipComment ? "" : comment }),
+      body: JSON.stringify({
+        link_id: link.id,
+        stars,
+        comment: skipComment ? "" : comment,
+        customer_email: customerEmail || null,
+      }),
     });
     setSubmitting(false);
     setStep("thanks");
@@ -99,6 +105,13 @@ export default function ReviewForm({ link, source }: { link: LinkData; source: s
               rows={4}
               className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm outline-none transition resize-none mb-4"
               style={{ outlineColor: color }}
+            />
+            <input
+              type="email"
+              value={customerEmail}
+              onChange={(e) => setCustomerEmail(e.target.value)}
+              placeholder="Votre email (optionnel — pour qu'on puisse vous recontacter)"
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none transition resize-none mb-4"
             />
             <button
               onClick={() => submitFeedback(false)}

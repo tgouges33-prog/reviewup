@@ -29,7 +29,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   const supabase = await createClient();
-  const { link_id, stars, comment } = await request.json();
+  const { link_id, stars, comment, customer_email } = await request.json();
 
   if (!link_id || !stars) {
     return Response.json({ error: "Données manquantes" }, { status: 400 });
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
 
   const { error } = await supabase
     .from("feedbacks")
-    .insert({ link_id, stars, comment: comment ?? null, status: "nouveau" });
+    .insert({ link_id, stars, comment: comment ?? null, status: "nouveau", customer_email: customer_email ?? null });
 
   if (error) return Response.json({ error: error.message }, { status: 500 });
 

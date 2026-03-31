@@ -9,6 +9,7 @@ type Feedback = {
   comment: string | null;
   status: string;
   created_at: string;
+  customer_email: string | null;
 };
 
 const STATUS_LABELS: Record<string, { label: string; color: string }> = {
@@ -24,6 +25,9 @@ export default function FeedbacksList() {
   const [noLink, setNoLink] = useState(false);
   const [filter, setFilter] = useState("tous");
   const [updating, setUpdating] = useState<string | null>(null);
+  const [replyingId, setReplyingId] = useState<string | null>(null);
+  const [replyText, setReplyText] = useState("");
+  const [sendingReply, setSendingReply] = useState(false);
 
   useEffect(() => {
     fetch("/api/feedbacks")
@@ -34,6 +38,23 @@ export default function FeedbacksList() {
       })
       .finally(() => setLoading(false));
   }, []);
+
+  async function sendReply(feedback: Feedback) {
+    if (!replyText.trim()) return;
+    setSendingReply(true);
+    const res = await fetch("/api/feedbacks/reply", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ feedback_id: feedback.id, reply_text: replyText }),
+    });
+    const data = await res.json();
+    if (data.ok) {
+      setFeedbacks((prev) => prev.map((f) => f.id === feedback.id ? { ...f, status: "traite" } : f));
+      setReplyingId(null);
+      setReplyText("");
+    }
+    setSendingReply(false);
+  }
 
   async function updateStatus(id: string, status: string) {
     setUpdating(id);
@@ -153,7 +174,20 @@ export default function FeedbacksList() {
                   ) : (
                     <p className="text-sm text-gray-400 italic">Aucun commentaire</p>
                   )}
+                  {f.customer_email && (
+                    <p className="text-xs text-gray-400 mt-1">📧 {f.customer_email}</p>
+                  )}
                 </div>
+
+                {/* Bouton répondre */}
+                {f.customer_email && f.status !== "google" && (
+                  <button
+                    onClick={() => { setReplyingId(replyingId === f.id ? null : f.id); setReplyText(""); }}
+                    className="flex-shrink-0 px-3 py-1.5 rounded-full text-xs border border-[#667eea]/30 text-[#667eea] hover:bg-[#667eea]/5 transition-all cursor-pointer"
+                  >
+                    ✉️ Répondre
+                  </button>
+                )}
 
                 {/* Actions statut */}
                 {f.status !== "google" && (
@@ -188,6 +222,35 @@ export default function FeedbacksList() {
                   </div>
                 )}
               </div>
+              {/* Formulaire réponse */}
+              {replyingId === f.id && (
+                <div className="mt-4 pt-4 border-t border-gray-100">
+                  <p className="text-xs font-medium text-gray-500 mb-2">Répondre à {f.customer_email}</p>
+                  <textarea
+                    value={replyText}
+                    onChange={(e) => setReplyText(e.target.value)}
+                    placeholder="Votre message au client..."
+                    rows={3}
+                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#667eea] transition resize-none mb-3"
+                  />
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => sendReply(f)}
+                      disabled={sendingReply || !replyText.trim()}
+                      className="px-4 py-2 rounded-full text-sm font-medium text-white cursor-pointer hover:-translate-y-0.5 transition-all disabled:opacity-60"
+                      style={{ background: "linear-gradient(135deg, #667eea, #764ba2)" }}
+                    >
+                      {sendingReply ? "Envoi..." : "✉️ Envoyer la réponse"}
+                    </button>
+                    <button
+                      onClick={() => setReplyingId(null)}
+                      className="px-4 py-2 rounded-full text-sm border border-gray-200 text-gray-500 hover:text-gray-700 transition-all cursor-pointer"
+                    >
+                      Annuler
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           ))
         )}
