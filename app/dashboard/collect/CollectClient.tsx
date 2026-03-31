@@ -28,6 +28,10 @@ export default function CollectClient({
   const [saving, setSaving] = useState(false);
   const [copied, setCopied] = useState(false);
   const [stats, setStats] = useState({ views: 0, qr: 0, link: 0, google: 0 });
+  const [sendChannel, setSendChannel] = useState<"email" | "sms">("email");
+  const [recipient, setRecipient] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sendResult, setSendResult] = useState<{ ok?: boolean; error?: string } | null>(null);
 
   useEffect(() => {
     if (!initialLink) return;
@@ -47,6 +51,26 @@ export default function CollectClient({
   const appUrl = typeof window !== "undefined" ? window.location.origin : "https://reviewup-three.vercel.app";
   const collectUrl = link ? `${appUrl}/r/${link.slug}` : null;
   const qrUrl = collectUrl ? `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(collectUrl + "?src=qr")}` : null;
+
+  async function handleSend() {
+    if (!recipient.trim() || !collectUrl) return;
+    setSending(true);
+    setSendResult(null);
+    const res = await fetch("/api/send-review-link", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        channel: sendChannel,
+        recipient: recipient.trim(),
+        link_url: collectUrl,
+        business_name: businessName,
+      }),
+    });
+    const data = await res.json();
+    setSendResult(data);
+    if (data.ok) setRecipient("");
+    setSending(false);
+  }
 
   async function handleSave() {
     if (!businessName.trim()) return;
@@ -172,6 +196,37 @@ export default function CollectClient({
                   📧 Email
                 </a>
               </div>
+            </div>
+
+            {/* Envoyer à un client */}
+            <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+              <h2 className="font-semibold text-gray-900 mb-4">Envoyer à un client</h2>
+              <div className="flex gap-2 mb-4">
+                {(["email", "sms"] as const).map((c) => (
+                  <button key={c} onClick={() => { setSendChannel(c); setSendResult(null); }}
+                    className={`flex-1 py-2 rounded-full text-sm font-medium border transition-all cursor-pointer ${
+                      sendChannel === c ? "border-[#667eea] text-[#667eea] bg-[#667eea]/5" : "border-gray-200 text-gray-500 hover:border-[#667eea]"
+                    }`}>
+                    {c === "email" ? "📧 Email" : "📱 SMS"}
+                  </button>
+                ))}
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type={sendChannel === "email" ? "email" : "tel"}
+                  value={recipient}
+                  onChange={(e) => setRecipient(e.target.value)}
+                  placeholder={sendChannel === "email" ? "client@exemple.com" : "06 12 34 56 78"}
+                  className="flex-1 border border-gray-300 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[#667eea] transition"
+                />
+                <button onClick={handleSend} disabled={sending || !recipient.trim()}
+                  className="px-4 py-2.5 rounded-xl text-sm font-medium text-white cursor-pointer hover:-translate-y-0.5 transition-all disabled:opacity-60 flex-shrink-0"
+                  style={{ background: "linear-gradient(135deg, #667eea, #764ba2)" }}>
+                  {sending ? "..." : "Envoyer"}
+                </button>
+              </div>
+              {sendResult?.ok && <p className="text-green-600 text-xs mt-2">✓ Envoyé avec succès !</p>}
+              {sendResult?.error && <p className="text-red-500 text-xs mt-2">{sendResult.error}</p>}
             </div>
 
             <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 text-center">
