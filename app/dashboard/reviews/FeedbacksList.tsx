@@ -28,6 +28,7 @@ export default function FeedbacksList() {
   const [replyingId, setReplyingId] = useState<string | null>(null);
   const [replyText, setReplyText] = useState("");
   const [sendingReply, setSendingReply] = useState(false);
+  const [replyError, setReplyError] = useState("");
 
   useEffect(() => {
     fetch("/api/feedbacks")
@@ -42,6 +43,7 @@ export default function FeedbacksList() {
   async function sendReply(feedback: Feedback) {
     if (!replyText.trim()) return;
     setSendingReply(true);
+    setReplyError("");
     const res = await fetch("/api/feedbacks/reply", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -52,6 +54,8 @@ export default function FeedbacksList() {
       setFeedbacks((prev) => prev.map((f) => f.id === feedback.id ? { ...f, status: "traite" } : f));
       setReplyingId(null);
       setReplyText("");
+    } else {
+      setReplyError(data.error ?? "Erreur inconnue");
     }
     setSendingReply(false);
   }
@@ -249,6 +253,9 @@ export default function FeedbacksList() {
                       Annuler
                     </button>
                   </div>
+                  {replyError && (
+                    <p className="text-red-500 text-xs mt-2">Erreur : {replyError}</p>
+                  )}
                 </div>
               )}
             </div>
