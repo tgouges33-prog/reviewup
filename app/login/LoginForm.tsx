@@ -75,7 +75,7 @@ export default function LoginForm() {
     <div className="bg-white rounded-2xl shadow-2xl p-10 w-full max-w-md">
       <div className="text-center mb-8">
         <Link href="/" className="hover:opacity-80 inline-block">
-          <Logo variant="color" size={36} />
+          <Logo variant="color" height={36} />
         </Link>
         <p className="text-gray-500 mt-2 text-sm">
           {mode === "login" ? "Connectez-vous à votre compte" : "Créez votre compte gratuit"}
