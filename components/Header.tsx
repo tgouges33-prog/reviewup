@@ -28,9 +28,9 @@ export default function Header() {
     >
       <div className="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
         {/* Logo */}
-        <div className="text-2xl font-bold tracking-tight select-none">
+        <Link href="/" className="text-2xl font-bold tracking-tight select-none hover:opacity-90 transition-opacity">
           ⭐ ReviewUp
-        </div>
+        </Link>
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-7">
