@@ -15,7 +15,7 @@ export default function Confidentialite() {
           <section className="mb-8">
             <h2 className="text-lg font-semibold text-gray-800 mb-3">1. Responsable du traitement</h2>
             <p className="text-gray-600 leading-relaxed">
-              EI Thomas GOUGES — 180 Rue des Queyries, 33100 Bordeaux — [À COMPLÉTER : contact@votredomaine.fr]<br />
+              EI Thomas GOUGES — 180 Rue des Queyries, 33100 Bordeaux — contact@klevano.com<br />
               Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez de droits sur vos données personnelles.
             </p>
           </section>
@@ -74,7 +74,7 @@ export default function Confidentialite() {
           <section className="mb-8">
             <h2 className="text-lg font-semibold text-gray-800 mb-3">6. Vos droits</h2>
             <p className="text-gray-600 leading-relaxed">
-              Conformément au RGPD, vous disposez des droits suivants : accès, rectification, suppression, portabilité, opposition, limitation du traitement. Pour exercer ces droits, contactez-nous à : <strong>[À COMPLÉTER : contact@votredomaine.fr]</strong>. Vous pouvez également adresser une réclamation à la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" className="text-[#667eea] hover:underline">www.cnil.fr</a>).
+              Conformément au RGPD, vous disposez des droits suivants : accès, rectification, suppression, portabilité, opposition, limitation du traitement. Pour exercer ces droits, contactez-nous à : <strong>contact@klevano.com</strong>. Vous pouvez également adresser une réclamation à la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" className="text-[#667eea] hover:underline">www.cnil.fr</a>).
             </p>
           </section>
 

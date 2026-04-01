@@ -39,7 +39,7 @@ export default function CGU() {
           <section className="mb-8">
             <h2 className="text-lg font-semibold text-gray-800 mb-3">4. Droit de rétractation</h2>
             <p className="text-gray-600 leading-relaxed">
-              Conformément à l'article L221-18 du Code de la consommation, vous disposez d'un délai de 14 jours à compter de la souscription pour exercer votre droit de rétractation, sans avoir à justifier de motif. Pour l'exercer, contactez-nous à [À COMPLÉTER : contact@votredomaine.fr]. Ce droit ne s'applique pas aux abonnements dont l'exécution a commencé avec votre accord avant la fin du délai de rétractation.
+              Conformément à l'article L221-18 du Code de la consommation, vous disposez d'un délai de 14 jours à compter de la souscription pour exercer votre droit de rétractation, sans avoir à justifier de motif. Pour l'exercer, contactez-nous à contact@klevano.com. Ce droit ne s'applique pas aux abonnements dont l'exécution a commencé avec votre accord avant la fin du délai de rétractation.
             </p>
           </section>
 
@@ -78,7 +78,7 @@ export default function CGU() {
           <section>
             <h2 className="text-lg font-semibold text-gray-800 mb-3">9. Contact</h2>
             <p className="text-gray-600">
-              Pour toute question : <strong>[À COMPLÉTER : contact@votredomaine.fr]</strong>
+              Pour toute question : <strong>contact@klevano.com</strong>
             </p>
           </section>
         </div>

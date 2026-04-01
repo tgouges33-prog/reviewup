@@ -18,7 +18,7 @@ export default function MentionsLegales() {
               <strong>Forme juridique :</strong> Entreprise Individuelle (Auto-entrepreneur)<br />
               <strong>SIRET :</strong> 879 413 235 00034<br />
               <strong>Adresse :</strong> 180 Rue des Queyries, 33100 Bordeaux<br />
-              <strong>Email :</strong> [À COMPLÉTER — contact@votredomaine.fr]
+              <strong>Email :</strong> <a href="mailto:contact@klevano.com" className="text-[#667eea] hover:underline">contact@klevano.com</a>
             </p>
           </section>
 
