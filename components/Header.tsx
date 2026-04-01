@@ -7,6 +7,7 @@ import Logo from "@/components/Logo";
 const NAV_LINKS = [
   { label: "Services", href: "#services" },
   { label: "Tarifs", href: "#pricing" },
+  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -35,15 +36,25 @@ export default function Header() {
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-7">
-          {NAV_LINKS.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="text-sm font-medium hover:opacity-80 transition-opacity"
-            >
-              {l.label}
-            </a>
-          ))}
+          {NAV_LINKS.map((l) =>
+            l.href.startsWith("/") ? (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="text-sm font-medium hover:opacity-80 transition-opacity"
+              >
+                {l.label}
+              </Link>
+            ) : (
+              <a
+                key={l.href}
+                href={l.href}
+                className="text-sm font-medium hover:opacity-80 transition-opacity"
+              >
+                {l.label}
+              </a>
+            )
+          )}
           <Link
             href="/login"
             className="text-sm font-medium border border-white/50 px-4 py-2 rounded-full hover:bg-white/15 hover:border-white transition-all"
@@ -73,16 +84,27 @@ export default function Header() {
       {/* Mobile menu */}
       {open && (
         <div className="md:hidden px-5 pb-5 flex flex-col gap-4 border-t border-white/20 pt-4">
-          {NAV_LINKS.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="text-sm font-medium hover:opacity-80"
-              onClick={() => setOpen(false)}
-            >
-              {l.label}
-            </a>
-          ))}
+          {NAV_LINKS.map((l) =>
+            l.href.startsWith("/") ? (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="text-sm font-medium hover:opacity-80"
+                onClick={() => setOpen(false)}
+              >
+                {l.label}
+              </Link>
+            ) : (
+              <a
+                key={l.href}
+                href={l.href}
+                className="text-sm font-medium hover:opacity-80"
+                onClick={() => setOpen(false)}
+              >
+                {l.label}
+              </a>
+            )
+          )}
           <Link href="/login" className="text-sm font-medium hover:opacity-80">
             Se connecter
           </Link>
