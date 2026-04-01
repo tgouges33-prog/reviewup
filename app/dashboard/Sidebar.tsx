@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import Logo from "@/components/Logo";
 
 const NAV = [
   { href: "/dashboard", icon: "📊", label: "Vue générale" },
@@ -33,7 +34,9 @@ export default function Sidebar({ userEmail }: { userEmail: string }) {
     >
       {/* Logo */}
       <div className="px-6 py-6 border-b border-white/20">
-        <Link href="/" className="text-xl font-bold">⭐ Klevano</Link>
+        <Link href="/" className="hover:opacity-90 transition-opacity inline-block">
+          <Logo variant="light" size={28} />
+        </Link>
         <p className="text-xs opacity-60 mt-1 truncate">{userEmail}</p>
       </div>
 

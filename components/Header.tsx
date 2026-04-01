@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Logo from "@/components/Logo";
 
 const NAV_LINKS = [
   { label: "Services", href: "#services" },
@@ -28,8 +29,8 @@ export default function Header() {
     >
       <div className="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="text-2xl font-bold tracking-tight select-none hover:opacity-90 transition-opacity">
-          ⭐ Klevano
+        <Link href="/" className="hover:opacity-90 transition-opacity">
+          <Logo variant="light" size={34} />
         </Link>
 
         {/* Desktop nav */}

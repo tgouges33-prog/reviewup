@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import Logo from "@/components/Logo";
 
 type Mode = "login" | "signup";
 
@@ -73,8 +74,8 @@ export default function LoginForm() {
   return (
     <div className="bg-white rounded-2xl shadow-2xl p-10 w-full max-w-md">
       <div className="text-center mb-8">
-        <Link href="/" className="text-2xl font-bold text-gray-900 hover:opacity-80">
-          ⭐ Klevano
+        <Link href="/" className="hover:opacity-80 inline-block">
+          <Logo variant="color" size={36} />
         </Link>
         <p className="text-gray-500 mt-2 text-sm">
           {mode === "login" ? "Connectez-vous à votre compte" : "Créez votre compte gratuit"}
