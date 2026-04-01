@@ -6,9 +6,40 @@ import CalInit from "@/components/CalInit";
 const geist = Geist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Klevano — Optimisation Google My Business automatisée",
+  title: "Klevano — Optimisation Google My Business & Collecte d'Avis Clients",
   description:
-    "Automatisez l'optimisation de votre fiche GMB, collectez des avis et augmentez vos clients locaux avec Klevano.",
+    "Klevano optimise automatiquement votre fiche Google My Business, collecte vos avis clients et booste votre référencement local. Essayez gratuitement.",
+  keywords: [
+    "optimisation Google My Business",
+    "collecte avis clients",
+    "gestion avis Google",
+    "référencement local",
+    "fiche GMB",
+    "avis Google entreprise",
+    "logiciel réputation en ligne",
+    "améliorer note Google",
+    "avis clients automatique",
+    "SEO local France",
+  ],
+  authors: [{ name: "Klevano" }],
+  creator: "Klevano",
+  metadataBase: new URL("https://klevano.com"),
+  alternates: { canonical: "https://klevano.com" },
+  openGraph: {
+    title: "Klevano — Optimisation Google My Business & Avis Clients",
+    description:
+      "Automatisez l'optimisation de votre fiche GMB, collectez des avis 5 étoiles et boostez votre référencement local.",
+    url: "https://klevano.com",
+    siteName: "Klevano",
+    locale: "fr_FR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Klevano — Optimisation Google My Business",
+    description: "Boostez votre fiche GMB et collectez des avis clients automatiquement.",
+  },
+  robots: { index: true, follow: true },
   icons: {
     icon: "/favicon.png",
     shortcut: "/favicon.png",
