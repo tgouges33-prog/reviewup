@@ -48,7 +48,7 @@ export default function CollectClient({
       });
   }, [initialLink]);
 
-  const appUrl = typeof window !== "undefined" ? window.location.origin : "https://reviewup-three.vercel.app";
+  const appUrl = typeof window !== "undefined" ? window.location.origin : "https://klevano.com";
   const collectUrl = link ? `${appUrl}/r/${link.slug}` : null;
   const qrUrl = collectUrl ? `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(collectUrl + "?src=qr")}` : null;
 
