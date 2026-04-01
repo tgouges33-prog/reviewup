@@ -10,8 +10,9 @@ export const metadata: Metadata = {
   description:
     "Automatisez l'optimisation de votre fiche GMB, collectez des avis et augmentez vos clients locaux avec Klevano.",
   icons: {
-    icon: "/icon.svg",
-    shortcut: "/icon.svg",
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
   },
 };
 
