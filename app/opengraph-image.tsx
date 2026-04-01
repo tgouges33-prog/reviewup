@@ -1,11 +1,16 @@
 import { ImageResponse } from "next/og";
+import { readFileSync } from "fs";
+import { join } from "path";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 export const alt = "Klevano — Optimisation Google My Business & Collecte d'Avis";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function Image() {
+  const logoData = readFileSync(join(process.cwd(), "public/favicon.png"));
+  const logoSrc = `data:image/png;base64,${logoData.toString("base64")}`;
+
   return new ImageResponse(
     (
       <div
@@ -21,20 +26,13 @@ export default async function Image() {
           fontFamily: "sans-serif",
         }}
       >
-        {/* Logo K */}
-        <div style={{
-          width: 90, height: 90,
-          background: "rgba(255,255,255,0.2)",
-          borderRadius: 20,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: 56,
-          fontWeight: 900,
-          color: "white",
-          marginBottom: 32,
-          border: "2px solid rgba(255,255,255,0.3)",
-        }}>K</div>
+        {/* Logo */}
+        <img
+          src={logoSrc}
+          width={120}
+          height={120}
+          style={{ marginBottom: 32, borderRadius: 24 }}
+        />
 
         {/* Nom */}
         <div style={{ color: "white", fontSize: 80, fontWeight: 900, marginBottom: 16, letterSpacing: "-2px" }}>
