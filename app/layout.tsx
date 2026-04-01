@@ -9,6 +9,10 @@ export const metadata: Metadata = {
   title: "Klevano — Optimisation Google My Business automatisée",
   description:
     "Automatisez l'optimisation de votre fiche GMB, collectez des avis et augmentez vos clients locaux avec Klevano.",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+  },
 };
 
 export default function RootLayout({
