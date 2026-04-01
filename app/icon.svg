@@ -1,1 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" zoomAndPan="magnify" viewBox="0 0 384 383.999986" height="512" preserveAspectRatio="xMidYMid meet" version="1.0"><defs><clipPath id="41ade42dd9"><path d="M 2 0.796875 L 79 0.796875 L 79 77 L 2 77 Z M 2 0.796875 " clip-rule="nonzero"/></clipPath><clipPath id="ab8bb270c2"><path d="M 0.601562 0.796875 L 215.1875 0.796875 L 215.1875 247.261719 L 0.601562 247.261719 Z M 0.601562 0.796875 " clip-rule="nonzero"/></clipPath><clipPath id="f19b244802"><path d="M 226 218 L 375 218 L 375 247.601562 L 226 247.601562 Z M 226 218 " clip-rule="nonzero"/></clipPath><clipPath id="adccbb8864"><rect x="0" width="375" y="0" height="248"/></clipPath></defs><g transform="matrix(1, 0, 0, 1, 9, 68)"><g clip-path="url(#adccbb8864)"><path fill="#333333" d="M 110.957031 9.585938 L 107.730469 12.714844 " fill-opacity="1" fill-rule="nonzero"/><g clip-path="url(#41ade42dd9)"><path fill="#764ba2" d="M 78.28125 0.796875 L 2.402344 76.726562 L 2.402344 0.796875 Z M 78.28125 0.796875 " fill-opacity="1" fill-rule="nonzero"/></g><g clip-path="url(#ab8bb270c2)"><path fill="#ffffff" d="M 100.082031 132.242188 L 88.957031 121.21875 L 88.859375 121.167969 L 89.007812 121.167969 L 209.378906 0.796875 L 125.753906 0.796875 L 45.65625 78.5625 L 30.609375 93.113281 L 0.914062 121.964844 L 0.714844 121.964844 L 0.714844 209.460938 L 44.5625 165.613281 L 126.152344 247.152344 L 215.042969 247.152344 Z M 100.082031 132.242188 " fill-opacity="1" fill-rule="nonzero"/></g><g clip-path="url(#f19b244802)"><path stroke-linecap="butt" transform="matrix(0.229058, 0.000000000000000672, -0.000000000000000672, 0.229058, 241.092556, 218.341685)" fill="none" stroke-linejoin="miter" d="M 0.00521178 63.004782 L 542.87048 63.004782 " stroke="#764ba2" stroke-width="126" stroke-opacity="1" stroke-miterlimit="4"/></g></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#667eea"/>
+      <stop offset="100%" stop-color="#764ba2"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="7" fill="url(#g)"/>
+  <path fill="#ffffff" d="M 8 6 L 8 26 L 12 26 L 12 18 L 20 26 L 25 26 L 16 17 L 24 6 L 19 6 L 12 15 L 12 6 Z"/>
+</svg>

@@ -29,7 +29,7 @@ export default function Header() {
     >
       <div className="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="hover:opacity-90 transition-opacity">
+        <Link href="/" className="hover:opacity-90 transition-opacity cursor-pointer" style={{ display: "inline-flex" }}>
           <Logo variant="light" height={36} />
         </Link>
 

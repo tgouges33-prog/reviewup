@@ -34,7 +34,7 @@ export default function Sidebar({ userEmail }: { userEmail: string }) {
     >
       {/* Logo */}
       <div className="px-6 py-6 border-b border-white/20">
-        <Link href="/" className="hover:opacity-90 transition-opacity inline-block">
+        <Link href="/" className="hover:opacity-90 transition-opacity cursor-pointer" style={{ display: "inline-flex" }}>
           <Logo variant="light" height={30} />
         </Link>
         <p className="text-xs opacity-60 mt-1 truncate">{userEmail}</p>
