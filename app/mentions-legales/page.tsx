@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-export const metadata = { title: "Mentions légales — ReviewUp" };
+export const metadata = { title: "Mentions légales — Klevano" };
 
 export default function MentionsLegales() {
   return (
@@ -39,7 +39,7 @@ export default function MentionsLegales() {
           <section className="mb-8">
             <h2 className="text-lg font-semibold text-gray-800 mb-3">Propriété intellectuelle</h2>
             <p className="text-gray-600 leading-relaxed">
-              L'ensemble du contenu de ce site (textes, images, graphismes, logo, icônes) est la propriété exclusive de ReviewUp, sauf mentions contraires. Toute reproduction, distribution, modification ou utilisation à des fins commerciales sans autorisation écrite préalable est interdite.
+              L'ensemble du contenu de ce site (textes, images, graphismes, logo, icônes) est la propriété exclusive de Klevano, sauf mentions contraires. Toute reproduction, distribution, modification ou utilisation à des fins commerciales sans autorisation écrite préalable est interdite.
             </p>
           </section>
 

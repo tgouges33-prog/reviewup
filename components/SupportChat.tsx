@@ -7,7 +7,7 @@ type Message = { role: "user" | "assistant"; text: string };
 export default function SupportChat({ userEmail }: { userEmail: string }) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: "assistant", text: "Bonjour ! Je suis l'assistant ReviewUp. Comment puis-je vous aider ?" },
+    { role: "assistant", text: "Bonjour ! Je suis l'assistant Klevano. Comment puis-je vous aider ?" },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -57,7 +57,7 @@ export default function SupportChat({ userEmail }: { userEmail: string }) {
           <div className="px-4 py-3 text-white text-sm font-semibold flex items-center gap-2"
             style={{ background: "linear-gradient(135deg, #667eea, #764ba2)" }}>
             <span>🤖</span>
-            <span>Assistant ReviewUp</span>
+            <span>Assistant Klevano</span>
           </div>
 
           {/* Messages */}

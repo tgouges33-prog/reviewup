@@ -33,7 +33,7 @@ export default function Sidebar({ userEmail }: { userEmail: string }) {
     >
       {/* Logo */}
       <div className="px-6 py-6 border-b border-white/20">
-        <Link href="/" className="text-xl font-bold">⭐ ReviewUp</Link>
+        <Link href="/" className="text-xl font-bold">⭐ Klevano</Link>
         <p className="text-xs opacity-60 mt-1 truncate">{userEmail}</p>
       </div>
 

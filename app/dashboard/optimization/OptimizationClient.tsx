@@ -103,11 +103,11 @@ export default function OptimizationClient({ gmbData, score, locationName }: Pro
                 : "Votre fiche est bien optimisée. Notre équipe peut prendre le relais pour maintenir votre positionnement."}
             </p>
             <a
-              href="mailto:contact@reviewup.fr?subject=Demande d'optimisation GMB"
+              href="mailto:contact@klevano.com?subject=Demande d'optimisation GMB"
               className="inline-block px-5 py-2 rounded-full text-sm font-medium text-white hover:-translate-y-0.5 transition-all"
               style={{ background: "linear-gradient(135deg, #667eea, #764ba2)" }}
             >
-              Déléguer à ReviewUp →
+              Déléguer à Klevano →
             </a>
           </div>
         </div>

@@ -9,9 +9,9 @@ const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KE
 const SUPPORT_EMAIL = process.env.SUPPORT_EMAIL ?? "onboarding@resend.dev";
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
 
-const SYSTEM_PROMPT = `Tu es l'assistant support de ReviewUp, un SaaS français d'optimisation Google My Business et de collecte d'avis clients.
+const SYSTEM_PROMPT = `Tu es l'assistant support de Klevano, un SaaS français d'optimisation Google My Business et de collecte d'avis clients.
 
-ReviewUp propose deux offres :
+Klevano propose deux offres :
 - Offre Essentiel (99€/mois) : optimisation de fiche GMB, scoring, checklist, suggestions IA
 - Offre Pro (169€/mois) : tout l'Essentiel + collecte d'avis privés, lien marque blanche, QR code, notifications email, réponse aux avis
 
@@ -53,9 +53,9 @@ export async function POST(request: Request) {
       const parsed = JSON.parse(text.trim());
       if (parsed.escalate && resend) {
         await resend.emails.send({
-          from: `ReviewUp Support <${FROM_EMAIL}>`,
+          from: `Klevano Support <${FROM_EMAIL}>`,
           to: SUPPORT_EMAIL,
-          subject: `[Support ReviewUp] Nouvelle demande client`,
+          subject: `[Support Klevano] Nouvelle demande client`,
           html: `
             <div style="font-family: sans-serif; max-width: 500px; margin: 0 auto; padding: 20px;">
               <h2 style="color: #1f2937;">Nouvelle demande support</h2>

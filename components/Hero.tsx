@@ -23,7 +23,7 @@ export default function Hero() {
         </h1>
         <p className="text-lg md:text-xl opacity-95 mb-8">
           Automatisez l'optimisation de votre fiche GMB, collectez des avis et
-          augmentez vos clients locaux avec ReviewUp
+          augmentez vos clients locaux avec Klevano
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <a

@@ -52,7 +52,7 @@ export async function POST(request: Request) {
     if (linkData?.notification_email) {
       const fromEmail = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
       await resend.emails.send({
-        from: `ReviewUp <${fromEmail}>`,
+        from: `Klevano <${fromEmail}>`,
         to: linkData.notification_email,
         subject: `⚠️ Nouvel avis négatif (${stars}/5) — ${linkData.business_name}`,
         html: `
@@ -68,7 +68,7 @@ export async function POST(request: Request) {
             </div>
             ` : "<p style='color: #6b7280;'>Aucun commentaire laissé.</p>"}
             <p style="color: #6b7280; font-size: 13px; margin-top: 24px;">
-              Connectez-vous à votre dashboard ReviewUp pour gérer ce feedback.
+              Connectez-vous à votre dashboard Klevano pour gérer ce feedback.
             </p>
           </div>
         `,

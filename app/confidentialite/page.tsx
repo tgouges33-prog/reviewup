@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-export const metadata = { title: "Politique de confidentialité — ReviewUp" };
+export const metadata = { title: "Politique de confidentialité — Klevano" };
 
 export default function Confidentialite() {
   return (
@@ -35,7 +35,7 @@ export default function Confidentialite() {
           <section className="mb-8">
             <h2 className="text-lg font-semibold text-gray-800 mb-3">3. Finalités du traitement</h2>
             <ul className="list-disc list-inside text-gray-600 space-y-1">
-              <li>Fournir et améliorer le service ReviewUp</li>
+              <li>Fournir et améliorer le service Klevano</li>
               <li>Gérer votre abonnement et la facturation</li>
               <li>Vous envoyer des notifications liées à votre compte (avis négatifs, réponses clients)</li>
               <li>Analyser les performances de votre fiche Google My Business</li>

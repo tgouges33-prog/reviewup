@@ -39,7 +39,7 @@ export async function POST(request: Request) {
   const fromEmail = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
 
   await resend.emails.send({
-    from: `${link?.business_name ?? "ReviewUp"} <${fromEmail}>`,
+    from: `${link?.business_name ?? "Klevano"} <${fromEmail}>`,
     replyTo: link?.notification_email ?? undefined,
     to: feedback.customer_email,
     subject: `Réponse de ${link?.business_name ?? "l'établissement"} concernant votre avis`,

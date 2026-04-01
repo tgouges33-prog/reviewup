@@ -68,7 +68,7 @@ export default function Paywall() {
           Activez votre abonnement
         </h1>
         <p className="text-gray-500">
-          Choisissez une formule pour accéder à votre dashboard ReviewUp et commencer à optimiser votre présence Google.
+          Choisissez une formule pour accéder à votre dashboard Klevano et commencer à optimiser votre présence Google.
         </p>
       </div>
 

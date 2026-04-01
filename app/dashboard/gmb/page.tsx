@@ -21,7 +21,7 @@ export default async function GmbPage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Ma fiche Google My Business</h1>
           <p className="text-gray-500 text-sm mt-1">
-            {isPro ? "Gérez et optimisez votre fiche directement depuis ReviewUp" : "Modifiez les informations de base de votre fiche"}
+            {isPro ? "Gérez et optimisez votre fiche directement depuis Klevano" : "Modifiez les informations de base de votre fiche"}
           </p>
         </div>
         <span className={`text-xs px-3 py-1.5 rounded-full font-semibold ${isPro ? "bg-purple-100 text-purple-700" : "bg-gray-100 text-gray-600"}`}>

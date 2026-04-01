@@ -74,7 +74,7 @@ export default function LoginForm() {
     <div className="bg-white rounded-2xl shadow-2xl p-10 w-full max-w-md">
       <div className="text-center mb-8">
         <Link href="/" className="text-2xl font-bold text-gray-900 hover:opacity-80">
-          ⭐ ReviewUp
+          ⭐ Klevano
         </Link>
         <p className="text-gray-500 mt-2 text-sm">
           {mode === "login" ? "Connectez-vous à votre compte" : "Créez votre compte gratuit"}

@@ -52,7 +52,7 @@ export default function OnboardingPage() {
           ))}
         </div>
 
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">Bienvenue sur ReviewUp 🎉</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-1">Bienvenue sur Klevano 🎉</h1>
         <p className="text-gray-500 text-sm mb-8">Configurons votre compte en 3 étapes rapides</p>
 
         {step === 0 && (

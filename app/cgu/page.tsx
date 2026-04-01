@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-export const metadata = { title: "Conditions générales d'utilisation — ReviewUp" };
+export const metadata = { title: "Conditions générales d'utilisation — Klevano" };
 
 export default function CGU() {
   return (
@@ -15,14 +15,14 @@ export default function CGU() {
           <section className="mb-8">
             <h2 className="text-lg font-semibold text-gray-800 mb-3">1. Objet</h2>
             <p className="text-gray-600 leading-relaxed">
-              Les présentes conditions générales d'utilisation (CGU) régissent l'accès et l'utilisation de la plateforme ReviewUp, service SaaS d'optimisation de fiches Google My Business et de collecte d'avis clients, édité par EI Thomas GOUGES (SIRET : 879 413 235 00034).
+              Les présentes conditions générales d'utilisation (CGU) régissent l'accès et l'utilisation de la plateforme Klevano, service SaaS d'optimisation de fiches Google My Business et de collecte d'avis clients, édité par EI Thomas GOUGES (SIRET : 879 413 235 00034).
             </p>
           </section>
 
           <section className="mb-8">
             <h2 className="text-lg font-semibold text-gray-800 mb-3">2. Accès au service</h2>
             <p className="text-gray-600 leading-relaxed">
-              L'accès à ReviewUp est réservé aux professionnels (B2B) disposant d'un abonnement actif. L'utilisation du service implique l'acceptation sans réserve des présentes CGU. ReviewUp se réserve le droit de modifier ces conditions à tout moment, avec notification par email.
+              L'accès à Klevano est réservé aux professionnels (B2B) disposant d'un abonnement actif. L'utilisation du service implique l'acceptation sans réserve des présentes CGU. Klevano se réserve le droit de modifier ces conditions à tout moment, avec notification par email.
             </p>
           </section>
 
@@ -57,14 +57,14 @@ export default function CGU() {
           <section className="mb-8">
             <h2 className="text-lg font-semibold text-gray-800 mb-3">6. Limitation de responsabilité</h2>
             <p className="text-gray-600 leading-relaxed">
-              ReviewUp est un outil d'aide à l'optimisation. Nous ne garantissons pas l'amélioration du positionnement Google. Les suggestions IA sont indicatives et ne constituent pas un conseil professionnel certifié. ReviewUp ne peut être tenu responsable d'une interruption de service due à des tiers (Google, Vercel, Stripe).
+              Klevano est un outil d'aide à l'optimisation. Nous ne garantissons pas l'amélioration du positionnement Google. Les suggestions IA sont indicatives et ne constituent pas un conseil professionnel certifié. Klevano ne peut être tenu responsable d'une interruption de service due à des tiers (Google, Vercel, Stripe).
             </p>
           </section>
 
           <section className="mb-8">
             <h2 className="text-lg font-semibold text-gray-800 mb-3">7. Propriété des données</h2>
             <p className="text-gray-600 leading-relaxed">
-              Les données de votre fiche GMB et les avis collectés via ReviewUp vous appartiennent. En cas de résiliation, vous pouvez demander l'export de vos données dans les 30 jours suivant la clôture de votre compte.
+              Les données de votre fiche GMB et les avis collectés via Klevano vous appartiennent. En cas de résiliation, vous pouvez demander l'export de vos données dans les 30 jours suivant la clôture de votre compte.
             </p>
           </section>
 

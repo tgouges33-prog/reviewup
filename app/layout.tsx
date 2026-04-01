@@ -6,9 +6,9 @@ import CalInit from "@/components/CalInit";
 const geist = Geist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "ReviewUp — Optimisation Google My Business automatisée",
+  title: "Klevano — Optimisation Google My Business automatisée",
   description:
-    "Automatisez l'optimisation de votre fiche GMB, collectez des avis et augmentez vos clients locaux avec ReviewUp.",
+    "Automatisez l'optimisation de votre fiche GMB, collectez des avis et augmentez vos clients locaux avec Klevano.",
 };
 
 export default function RootLayout({

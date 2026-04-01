@@ -6,7 +6,7 @@ export default function Examples() {
           <div>
             <h2 className="text-3xl md:text-4xl font-bold mb-5">Voyez le résultat en direct</h2>
             <p className="text-gray-500 mb-4 leading-relaxed">
-              Votre fiche Google My Business optimisée automatiquement. ReviewUp travaille
+              Votre fiche Google My Business optimisée automatiquement. Klevano travaille
               24/7 pour maximiser votre visibilité locale et augmenter vos avis naturels.
             </p>
             <p className="mb-3">

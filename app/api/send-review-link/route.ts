@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     }
     const fromEmail = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
     await resend.emails.send({
-      from: `${business_name} via ReviewUp <${fromEmail}>`,
+      from: `${business_name} via Klevano <${fromEmail}>`,
       to: recipient,
       subject: `Votre avis compte pour ${business_name}`,
       html: `
