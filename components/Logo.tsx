@@ -5,49 +5,40 @@ type LogoProps = {
 
 export default function Logo({ variant = "color", size = 32 }: LogoProps) {
   const isLight = variant === "light";
-  const textColor = isLight ? "#ffffff" : "#667eea";
-  const iconBg = isLight ? "rgba(255,255,255,0.25)" : "#667eea";
-  const iconBorder = isLight ? "rgba(255,255,255,0.4)" : "transparent";
-  const totalW = Math.round(size * 5);
-  const textY = Math.round(size * 0.7);
 
   return (
-    <svg
-      width={totalW}
-      height={size}
-      viewBox={`0 0 ${totalW} ${size}`}
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ display: "block", overflow: "visible" }}
-    >
-      {/* Carré arrondi */}
-      <rect
-        x="0" y="0"
-        width={size} height={size}
-        rx={Math.round(size * 0.22)}
-        fill={iconBg}
-        stroke={iconBorder}
-        strokeWidth="1"
-      />
-      {/* Lettre K */}
-      <text
-        x={size * 0.5}
-        y={textY}
-        textAnchor="middle"
-        fontFamily="Arial, Helvetica, sans-serif"
-        fontWeight="900"
-        fontSize={Math.round(size * 0.6)}
-        fill="white"
-      >K</text>
-      {/* Texte levano */}
-      <text
-        x={size * 1.3}
-        y={textY}
-        textAnchor="start"
-        fontFamily="Arial, Helvetica, sans-serif"
-        fontWeight="700"
-        fontSize={Math.round(size * 0.52)}
-        fill={textColor}
-      >levano</text>
-    </svg>
+    <span style={{ display: "inline-flex", alignItems: "center", gap: size * 0.28 }}>
+      {/* Icône carré arrondi avec K */}
+      <span style={{
+        width: size,
+        height: size,
+        borderRadius: size * 0.22,
+        background: isLight ? "rgba(255,255,255,0.25)" : "linear-gradient(135deg, #667eea, #764ba2)",
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0,
+        border: isLight ? "1px solid rgba(255,255,255,0.35)" : "none",
+      }}>
+        <span style={{
+          color: "white",
+          fontWeight: 900,
+          fontSize: size * 0.58,
+          lineHeight: 1,
+          fontFamily: "Arial, Helvetica, sans-serif",
+          letterSpacing: "-0.5px",
+        }}>K</span>
+      </span>
+
+      {/* Texte "levano" */}
+      <span style={{
+        color: isLight ? "white" : "#667eea",
+        fontWeight: 700,
+        fontSize: size * 0.56,
+        lineHeight: 1,
+        fontFamily: "inherit",
+        letterSpacing: "-0.3px",
+      }}>levano</span>
+    </span>
   );
 }
