@@ -28,7 +28,7 @@ export async function POST(request: Request) {
 
   const { data: link } = await supabase
     .from("review_links")
-    .select("business_name")
+    .select("business_name, notification_email")
     .eq("id", feedback.link_id)
     .single();
 
@@ -36,8 +36,11 @@ export async function POST(request: Request) {
     return Response.json({ error: "Email non configuré" }, { status: 500 });
   }
 
+  const fromEmail = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
+
   await resend.emails.send({
-    from: "ReviewUp <onboarding@resend.dev>",
+    from: `${link?.business_name ?? "ReviewUp"} <${fromEmail}>`,
+    replyTo: link?.notification_email ?? undefined,
     to: feedback.customer_email,
     subject: `Réponse de ${link?.business_name ?? "l'établissement"} concernant votre avis`,
     html: `

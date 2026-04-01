@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import Sidebar from "./Sidebar";
 import Paywall from "./Paywall";
+import SupportChat from "@/components/SupportChat";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
@@ -31,6 +32,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
     <div className="flex min-h-screen bg-[#f8f9ff]">
       <Sidebar userEmail={user.email ?? ""} />
       <main className="flex-1 p-8 overflow-y-auto">{children}</main>
+      <SupportChat userEmail={user.email ?? ""} />
     </div>
   );
 }

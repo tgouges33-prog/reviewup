@@ -20,8 +20,9 @@ export async function POST(request: Request) {
     if (!resend) {
       return Response.json({ error: "Email non configuré (RESEND_API_KEY manquant)" }, { status: 500 });
     }
+    const fromEmail = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
     await resend.emails.send({
-      from: "ReviewUp <onboarding@resend.dev>",
+      from: `${business_name} via ReviewUp <${fromEmail}>`,
       to: recipient,
       subject: `Votre avis compte pour ${business_name}`,
       html: `

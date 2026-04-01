@@ -50,8 +50,9 @@ export async function POST(request: Request) {
       .single();
 
     if (linkData?.notification_email) {
+      const fromEmail = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
       await resend.emails.send({
-        from: "ReviewUp <onboarding@resend.dev>",
+        from: `ReviewUp <${fromEmail}>`,
         to: linkData.notification_email,
         subject: `⚠️ Nouvel avis négatif (${stars}/5) — ${linkData.business_name}`,
         html: `
