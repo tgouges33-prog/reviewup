@@ -48,7 +48,7 @@ export default async function Image() {
           lineHeight: 1.4,
           marginBottom: 40,
         }}>
-          Optimisez votre fiche Google My Business & collectez des avis 5 étoiles automatiquement
+          La plateforme qui optimise votre fiche GMB et multiplie vos avis positifs
         </div>
 
         {/* Pills */}
