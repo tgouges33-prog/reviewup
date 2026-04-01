@@ -3,7 +3,7 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import CalInit from "@/components/CalInit";
 
-const geist = Geist({ subsets: ["latin"] });
+const geist = Geist({ subsets: ["latin"], display: "swap", preload: true });
 
 export const metadata: Metadata = {
   title: "Klevano — Optimisation Google My Business & Collecte d'Avis Clients",

@@ -7,6 +7,7 @@ import Stats from "@/components/Stats";
 import Services from "@/components/Services";
 import Pricing from "@/components/Pricing";
 import CTA from "@/components/CTA";
+import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
 
 const jsonLd = {
@@ -56,6 +57,7 @@ export default function HomePage() {
         <Stats />
         <Services />
         <Pricing />
+        <FAQ />
         <CTA />
       </main>
       <Footer />

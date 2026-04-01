@@ -67,7 +67,7 @@ export default function Pricing() {
     <section className="py-20 px-5 bg-[#f8f9ff]" id="pricing">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-          Deux formules pour maximiser votre potentiel
+          Tarifs — Optimisation GMB & Collecte d'avis clients
         </h2>
         <p className="text-center text-gray-500 mb-14">
           Sans engagement — Résiliez à tout moment
