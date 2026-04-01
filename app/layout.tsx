@@ -39,6 +39,7 @@ export const metadata: Metadata = {
     title: "Klevano — Optimisation Google My Business",
     description: "Boostez votre fiche GMB et collectez des avis clients automatiquement.",
   },
+  verification: { google: "G9WLPeiiVCSKwr4tBkoyazbBg8Ni-68hljvgDpojqzQ" },
   robots: { index: true, follow: true },
   icons: {
     icon: "/favicon.png",
