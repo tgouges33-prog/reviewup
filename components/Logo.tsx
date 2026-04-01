@@ -3,68 +3,51 @@ type LogoProps = {
   size?: number;
 };
 
-// variant "light" = logo blanc (pour fonds colorés : header, sidebar)
-// variant "color" = logo violet (pour fonds blancs/clairs)
 export default function Logo({ variant = "color", size = 32 }: LogoProps) {
-  const totalWidth = size + size * 3.6;
-  const textY = size * 0.72;
-  const fontSize = size * 0.5;
-  const textColor = variant === "light" ? "white" : "url(#kgrad-color)";
-  const iconFill = variant === "light" ? "rgba(255,255,255,0.2)" : "url(#kgrad-icon)";
-  const letterColor = "white";
+  const isLight = variant === "light";
+  const textColor = isLight ? "#ffffff" : "#667eea";
+  const iconBg = isLight ? "rgba(255,255,255,0.25)" : "#667eea";
+  const iconBorder = isLight ? "rgba(255,255,255,0.4)" : "transparent";
+  const totalW = Math.round(size * 5);
+  const textY = Math.round(size * 0.7);
 
   return (
     <svg
-      width={totalWidth}
+      width={totalW}
       height={size}
-      viewBox={`0 0 ${totalWidth} ${size}`}
-      fill="none"
+      viewBox={`0 0 ${totalW} ${size}`}
       xmlns="http://www.w3.org/2000/svg"
-      style={{ display: "block" }}
+      style={{ display: "block", overflow: "visible" }}
     >
-      <defs>
-        <linearGradient id="kgrad-icon" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#667eea" />
-          <stop offset="100%" stopColor="#764ba2" />
-        </linearGradient>
-        <linearGradient id="kgrad-color" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#667eea" />
-          <stop offset="100%" stopColor="#764ba2" />
-        </linearGradient>
-      </defs>
-
-      {/* Icône : carré arrondi */}
+      {/* Carré arrondi */}
       <rect
-        width={size}
-        height={size}
-        rx={size * 0.22}
-        fill={iconFill}
+        x="0" y="0"
+        width={size} height={size}
+        rx={Math.round(size * 0.22)}
+        fill={iconBg}
+        stroke={iconBorder}
+        strokeWidth="1"
       />
-
       {/* Lettre K */}
       <text
         x={size * 0.5}
         y={textY}
-        fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif"
-        fontWeight="800"
-        fontSize={size * 0.58}
-        fill={letterColor}
         textAnchor="middle"
-      >
-        K
-      </text>
-
-      {/* Texte "levano" */}
+        fontFamily="Arial, Helvetica, sans-serif"
+        fontWeight="900"
+        fontSize={Math.round(size * 0.6)}
+        fill="white"
+      >K</text>
+      {/* Texte levano */}
       <text
-        x={size * 1.28}
+        x={size * 1.3}
         y={textY}
-        fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif"
+        textAnchor="start"
+        fontFamily="Arial, Helvetica, sans-serif"
         fontWeight="700"
-        fontSize={fontSize}
+        fontSize={Math.round(size * 0.52)}
         fill={textColor}
-      >
-        levano
-      </text>
+      >levano</text>
     </svg>
   );
 }
