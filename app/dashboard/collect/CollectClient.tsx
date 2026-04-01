@@ -23,6 +23,8 @@ export default function CollectClient({
   const [businessName, setBusinessName] = useState(initialLink?.business_name ?? defaultBusinessName);
   const [googleUrl, setGoogleUrl] = useState(initialLink?.google_review_url ?? "");
   const [logoUrl, setLogoUrl] = useState(initialLink?.logo_url ?? "");
+  const [logoUploading, setLogoUploading] = useState(false);
+  const [logoError, setLogoError] = useState<string | null>(null);
   const [primaryColor, setPrimaryColor] = useState(initialLink?.primary_color ?? "#667eea");
   const [notificationEmail, setNotificationEmail] = useState(initialLink?.notification_email ?? "");
   const [saving, setSaving] = useState(false);
@@ -91,6 +93,24 @@ export default function CollectClient({
     setSaving(false);
   }
 
+  async function handleLogoUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setLogoError(null);
+    setLogoUploading(true);
+    const form = new FormData();
+    form.append("file", file);
+    const res = await fetch("/api/upload-logo", { method: "POST", body: form });
+    const data = await res.json();
+    if (data.url) {
+      setLogoUrl(data.url);
+    } else {
+      setLogoError(data.error ?? "Erreur lors de l'upload");
+    }
+    setLogoUploading(false);
+    e.target.value = "";
+  }
+
   function handleCopy() {
     if (!collectUrl) return;
     navigator.clipboard.writeText(collectUrl);
@@ -140,11 +160,29 @@ export default function CollectClient({
           <p className="text-xs text-gray-400 mb-4">Vos clients verront uniquement votre marque, pas Klevano.</p>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">URL de votre logo</label>
-              <input type="url" value={logoUrl} onChange={(e) => setLogoUrl(e.target.value)}
-                placeholder="https://votre-site.com/logo.png"
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#667eea] focus:ring-2 focus:ring-[#667eea]/20 transition" />
-              <p className="text-xs text-gray-400 mt-1">Hébergez votre logo sur votre site ou un service comme Cloudinary</p>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Logo de votre établissement</label>
+              <label className={`flex flex-col items-center justify-center w-full border-2 border-dashed rounded-xl p-5 cursor-pointer transition-all ${logoUploading ? "opacity-60 pointer-events-none" : "hover:border-[#667eea] hover:bg-[#f8f9ff]"} ${logoUrl ? "border-[#667eea]/40 bg-[#f8f9ff]" : "border-gray-300 bg-gray-50"}`}>
+                {logoUrl ? (
+                  <div className="flex flex-col items-center gap-2">
+                    <img src={logoUrl} alt="Logo" className="h-16 w-16 object-contain rounded-lg border border-gray-200 bg-white p-1" />
+                    <span className="text-xs text-[#667eea] font-medium">Cliquer pour changer</span>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center gap-2 text-center">
+                    <span className="text-2xl">🖼️</span>
+                    <span className="text-sm font-medium text-gray-700">{logoUploading ? "Upload en cours..." : "Cliquer pour importer votre logo"}</span>
+                    <span className="text-xs text-gray-400">PNG, JPG, SVG ou WebP — max 2 Mo</span>
+                  </div>
+                )}
+                <input type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" className="hidden" onChange={handleLogoUpload} />
+              </label>
+              <p className="text-xs text-gray-400 mt-1.5">Taille recommandée : 200×200 px minimum, format carré ou rectangulaire</p>
+              {logoError && <p className="text-xs text-red-500 mt-1">{logoError}</p>}
+              {logoUrl && (
+                <button onClick={() => setLogoUrl("")} className="text-xs text-gray-400 hover:text-red-500 mt-1 cursor-pointer transition-colors">
+                  Supprimer le logo
+                </button>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Couleur principale</label>
