@@ -5,10 +5,10 @@ import Link from "next/link";
 import Logo from "@/components/Logo";
 
 const NAV_LINKS = [
-  { label: "Services", href: "#services" },
-  { label: "Tarifs", href: "#pricing" },
+  { label: "Services", href: "/#services" },
+  { label: "Tarifs", href: "/#pricing" },
   { label: "Blog", href: "/blog" },
-  { label: "Contact", href: "#contact" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 const CAL_ATTRS = {
