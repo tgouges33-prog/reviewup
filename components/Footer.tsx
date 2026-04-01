@@ -4,6 +4,9 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-white py-10 px-5 text-center text-sm">
       <p className="mb-2">© 2026 Klevano — Optimisation Google My Business</p>
+      <p className="text-gray-400 mb-2">
+        <a href="mailto:hello@klevano.com" className="underline hover:text-white transition-colors">hello@klevano.com</a>
+      </p>
       <p className="text-gray-400 mb-2 space-x-3">
         <Link href="/blog" className="underline hover:text-white transition-colors">Blog</Link>
         <span>·</span>
