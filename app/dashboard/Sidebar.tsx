@@ -9,7 +9,7 @@ const NAV = [
   { href: "/dashboard", icon: "📊", label: "Vue générale", pro: false },
   { href: "/dashboard/optimization", icon: "🚀", label: "Optimisation GMB", pro: false },
   { href: "/dashboard/collect", icon: "💌", label: "Collecte d'avis", pro: true },
-  { href: "/dashboard/reviews", icon: "⭐", label: "Avis & Feedbacks", pro: false },
+  { href: "/dashboard/reviews", icon: "⭐", label: "Avis & Feedbacks", pro: true },
   { href: "/dashboard/analytics", icon: "📈", label: "Analytics", pro: false },
   { href: "/dashboard/gmb", icon: "🏢", label: "Ma fiche GMB", pro: false },
   { href: "/dashboard/gmb-connect", icon: "🔗", label: "Connexion GMB", pro: false },
