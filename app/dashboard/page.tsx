@@ -15,6 +15,12 @@ export default async function DashboardPage() {
     .eq("user_id", session?.user?.id ?? "")
     .single();
 
+  const { data: reviewLink } = await supabase
+    .from("review_links")
+    .select("id, google_review_url, logo_url")
+    .eq("user_id", session?.user?.id ?? "")
+    .single();
+
   const accessToken = tokenData?.access_token ?? session?.provider_token;
 
   let reviews: any[] = [];
@@ -69,12 +75,55 @@ export default async function DashboardPage() {
     replied: !!r.reviewReply,
   }));
 
+  // Checklist items
+  const checklist = [
+    { label: "Connecter Google My Business", done: gmbConnected, href: "/dashboard/gmb-connect" },
+    { label: "Configurer votre lien de collecte d'avis", done: !!reviewLink?.google_review_url, href: "/dashboard/collect" },
+    { label: "Ajouter votre logo", done: !!reviewLink?.logo_url, href: "/dashboard/collect" },
+    { label: "Envoyer votre premier lien d'avis à un client", done: false, href: "/dashboard/collect" },
+  ];
+  const checklistDone = checklist.filter((c) => c.done).length;
+  const showChecklist = checklistDone < checklist.length;
+
   return (
     <div>
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-gray-900">Bonjour, {firstName} 👋</h1>
         <p className="text-gray-500 text-sm mt-1">Voici l'état de votre fiche Google My Business</p>
       </div>
+
+      {/* Checklist de démarrage */}
+      {showChecklist && (
+        <div className="mb-6 bg-white border border-[#667eea]/30 rounded-xl p-6 shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <p className="font-semibold text-gray-900">🚀 Démarrage rapide</p>
+              <p className="text-xs text-gray-400 mt-0.5">{checklistDone}/{checklist.length} étapes complétées</p>
+            </div>
+            <div className="w-24 h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div
+                className="h-full rounded-full transition-all"
+                style={{ width: `${(checklistDone / checklist.length) * 100}%`, background: "linear-gradient(90deg, #667eea, #764ba2)" }}
+              />
+            </div>
+          </div>
+          <div className="space-y-2">
+            {checklist.map((item) => (
+              <Link key={item.label} href={item.done ? "#" : item.href}
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-all ${
+                  item.done ? "bg-green-50 text-gray-400 cursor-default" : "bg-[#f8f9ff] text-gray-700 hover:bg-[#667eea]/10"
+                }`}>
+                <span className={`w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0 ${
+                  item.done ? "bg-green-500 text-white" : "border-2 border-[#667eea] text-[#667eea]"
+                }`}>
+                  {item.done ? "✓" : "→"}
+                </span>
+                <span className={item.done ? "line-through" : "font-medium"}>{item.label}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       {!gmbConnected && (
         <div className="mb-6 bg-orange-50 border border-orange-200 rounded-xl p-4 flex items-center justify-between">
