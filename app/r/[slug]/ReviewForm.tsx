@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 
 type LinkData = {
   id: string;
@@ -60,7 +59,7 @@ export default function ReviewForm({ link, source }: { link: LinkData; source: s
         {/* Logo ou nom */}
         {link.logo_url ? (
           <div className="mb-6">
-            <Image src={link.logo_url} alt={link.business_name} width={120} height={60} className="mx-auto object-contain" />
+            <img src={link.logo_url} alt={link.business_name} className="mx-auto object-contain max-h-20 max-w-[200px]" />
           </div>
         ) : (
           <p className="font-bold text-gray-900 text-lg mb-6">{link.business_name}</p>
