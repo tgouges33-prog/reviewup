@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import { BUSINESS_LABELS, type BusinessType } from "@/lib/business-prompts";
 
 type Profile = {
@@ -26,6 +28,33 @@ export default function SettingsForm({
   });
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [canceling, setCanceling] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const router = useRouter();
+  const supabase = createClient();
+
+  async function handleCancelSubscription() {
+    if (!confirm("Êtes-vous sûr de vouloir résilier votre abonnement ? Vous perdrez accès au dashboard à la fin de la période en cours.")) return;
+    setCanceling(true);
+    const res = await fetch("/api/stripe/cancel", { method: "POST" });
+    const data = await res.json();
+    if (data.ok) {
+      alert("Abonnement résilié. Vous gardez accès jusqu'à la fin de la période payée.");
+      router.refresh();
+    } else {
+      alert(`Erreur : ${data.error}`);
+    }
+    setCanceling(false);
+  }
+
+  async function handleDeleteAccount() {
+    if (!confirmDelete) { setConfirmDelete(true); return; }
+    setDeleting(true);
+    await fetch("/api/account/delete", { method: "DELETE" });
+    await supabase.auth.signOut();
+    router.push("/");
+  }
 
   function update(key: string, value: string) {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -128,6 +157,45 @@ export default function SettingsForm({
             </button>
             {saved && <span className="text-green-600 text-sm">✓ Modifications enregistrées</span>}
           </div>
+        </div>
+      </div>
+
+      {/* Zone de danger */}
+      <div className="bg-white rounded-xl border border-red-200 shadow-sm p-6">
+        <h2 className="font-semibold text-red-600 mb-4">Zone de danger</h2>
+        <div className="space-y-4">
+          <div className="flex items-center justify-between p-4 bg-red-50 rounded-xl border border-red-100">
+            <div>
+              <p className="text-sm font-medium text-gray-900">Résilier mon abonnement</p>
+              <p className="text-xs text-gray-500 mt-0.5">Vous gardez accès jusqu'à la fin de la période payée</p>
+            </div>
+            <button
+              onClick={handleCancelSubscription}
+              disabled={canceling || !plan}
+              className="px-4 py-2 rounded-full text-sm font-medium border border-red-300 text-red-600 hover:bg-red-50 transition-all cursor-pointer disabled:opacity-50 flex-shrink-0"
+            >
+              {canceling ? "Résiliation..." : "Résilier"}
+            </button>
+          </div>
+          <div className="flex items-center justify-between p-4 bg-red-50 rounded-xl border border-red-100">
+            <div>
+              <p className="text-sm font-medium text-gray-900">Supprimer mon compte</p>
+              <p className="text-xs text-gray-500 mt-0.5">Action irréversible — toutes vos données seront supprimées</p>
+            </div>
+            <button
+              onClick={handleDeleteAccount}
+              disabled={deleting}
+              className="px-4 py-2 rounded-full text-sm font-medium bg-red-600 text-white hover:bg-red-700 transition-all cursor-pointer disabled:opacity-50 flex-shrink-0"
+            >
+              {deleting ? "Suppression..." : confirmDelete ? "Confirmer la suppression" : "Supprimer"}
+            </button>
+          </div>
+          {confirmDelete && (
+            <p className="text-xs text-red-500 text-center">
+              Cliquez à nouveau sur "Confirmer la suppression" pour supprimer définitivement votre compte.
+              <button onClick={() => setConfirmDelete(false)} className="ml-2 underline cursor-pointer">Annuler</button>
+            </p>
+          )}
         </div>
       </div>
 
