@@ -21,6 +21,26 @@ export default async function DashboardPage() {
     .eq("user_id", session?.user?.id ?? "")
     .single();
 
+  const { data: subscription } = await supabase
+    .from("subscriptions")
+    .select("plan")
+    .eq("user_id", session?.user?.id ?? "")
+    .eq("status", "active")
+    .single();
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("business_name, business_type, phone")
+    .eq("id", session?.user?.id ?? "")
+    .single();
+
+  const { count: reviewRequestCount } = await supabase
+    .from("review_requests")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", session?.user?.id ?? "");
+
+  const isPro = subscription?.plan === "pro";
+
   const accessToken = tokenData?.access_token ?? session?.provider_token;
 
   let reviews: any[] = [];
@@ -75,13 +95,26 @@ export default async function DashboardPage() {
     replied: !!r.reviewReply,
   }));
 
-  // Checklist items
-  const checklist = [
+  // Checklist selon le plan
+  const checklistEssentiel = [
+    { label: "Connecter Google My Business", done: gmbConnected, href: "/dashboard/gmb-connect" },
+    { label: "Renseigner votre nom d'établissement", done: !!profile?.business_name, href: "/dashboard/settings" },
+    { label: "Choisir votre secteur d'activité", done: !!profile?.business_type && profile.business_type !== "autre", href: "/dashboard/settings" },
+    { label: "Ajouter votre numéro de téléphone", done: !!profile?.phone, href: "/dashboard/settings" },
+    { label: "Consulter vos recommandations d'optimisation", done: false, href: "/dashboard/optimization" },
+    { label: "Vérifier la santé de votre fiche GMB", done: false, href: "/dashboard/gmb" },
+  ];
+
+  const checklistPro = [
     { label: "Connecter Google My Business", done: gmbConnected, href: "/dashboard/gmb-connect" },
     { label: "Configurer votre lien de collecte d'avis", done: !!reviewLink?.google_review_url, href: "/dashboard/collect" },
     { label: "Ajouter votre logo", done: !!reviewLink?.logo_url, href: "/dashboard/collect" },
-    { label: "Envoyer votre premier lien d'avis à un client", done: false, href: "/dashboard/collect" },
+    { label: "Envoyer votre premier lien d'avis à un client", done: (reviewRequestCount ?? 0) > 0, href: "/dashboard/collect" },
+    { label: "Consulter vos avis & feedbacks", done: false, href: "/dashboard/reviews" },
+    { label: "Optimiser votre fiche Google My Business", done: false, href: "/dashboard/optimization" },
   ];
+
+  const checklist = isPro ? checklistPro : checklistEssentiel;
   const checklistDone = checklist.filter((c) => c.done).length;
   const showChecklist = checklistDone < checklist.length;
 
