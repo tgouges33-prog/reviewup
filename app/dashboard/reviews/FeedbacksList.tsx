@@ -71,6 +71,27 @@ export default function FeedbacksList() {
     setUpdating(null);
   }
 
+  function exportCSV() {
+    const rows = [
+      ["Date", "Étoiles", "Statut", "Commentaire", "Email client"],
+      ...feedbacks.map((f) => [
+        new Date(f.created_at).toLocaleDateString("fr-FR"),
+        String(f.stars),
+        STATUS_LABELS[f.status]?.label ?? f.status,
+        f.comment ?? "",
+        f.customer_email ?? "",
+      ]),
+    ];
+    const csv = rows.map((r) => r.map((c) => `"${c.replace(/"/g, '""')}"`).join(";")).join("\n");
+    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `feedbacks-klevano-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   const filters = ["tous", "nouveau", "en_cours", "traite", "google"];
   const filtered = filter === "tous" ? feedbacks : feedbacks.filter((f) => f.status === filter);
 
@@ -128,26 +149,34 @@ export default function FeedbacksList() {
         ))}
       </div>
 
-      {/* Filtres */}
-      <div className="flex gap-2 mb-5 flex-wrap">
-        {filters.map((f) => (
-          <button
-            key={f}
-            onClick={() => setFilter(f)}
-            className={`px-4 py-2 rounded-full text-sm border transition-all cursor-pointer capitalize ${
-              filter === f
-                ? "border-[#667eea] text-[#667eea] bg-[#667eea]/5 font-medium"
-                : "border-gray-200 bg-white text-gray-600 hover:border-[#667eea]"
-            }`}
-          >
-            {f === "tous" ? "Tous" : STATUS_LABELS[f]?.label ?? f}
-            {f !== "tous" && (
-              <span className="ml-1.5 text-xs opacity-60">
-                ({feedbacks.filter((fb) => fb.status === f).length})
-              </span>
-            )}
-          </button>
-        ))}
+      {/* Filtres + Export */}
+      <div className="flex items-center justify-between gap-3 mb-5 flex-wrap">
+        <div className="flex gap-2 flex-wrap">
+          {filters.map((f) => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className={`px-4 py-2 rounded-full text-sm border transition-all cursor-pointer capitalize ${
+                filter === f
+                  ? "border-[#667eea] text-[#667eea] bg-[#667eea]/5 font-medium"
+                  : "border-gray-200 bg-white text-gray-600 hover:border-[#667eea]"
+              }`}
+            >
+              {f === "tous" ? "Tous" : STATUS_LABELS[f]?.label ?? f}
+              {f !== "tous" && (
+                <span className="ml-1.5 text-xs opacity-60">
+                  ({feedbacks.filter((fb) => fb.status === f).length})
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+        <button
+          onClick={exportCSV}
+          className="px-4 py-2 rounded-full text-sm border border-gray-200 bg-white text-gray-600 hover:border-[#667eea] hover:text-[#667eea] transition-all cursor-pointer flex-shrink-0"
+        >
+          ⬇️ Exporter CSV
+        </button>
       </div>
 
       {/* Liste */}

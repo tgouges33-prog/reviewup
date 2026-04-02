@@ -16,6 +16,13 @@ export async function POST(request: Request) {
     return Response.json({ error: "Données manquantes" }, { status: 400 });
   }
 
+  // Récupérer le link_id pour le tracking
+  const { data: reviewLink } = await supabase
+    .from("review_links")
+    .select("id")
+    .eq("user_id", session.user.id)
+    .single();
+
   if (channel === "email") {
     if (!resend) {
       return Response.json({ error: "Email non configuré (RESEND_API_KEY manquant)" }, { status: 500 });
@@ -42,6 +49,19 @@ export async function POST(request: Request) {
         </div>
       `,
     });
+
+    // Tracker la demande pour relance
+    if (reviewLink?.id) {
+      await supabase.from("review_requests").insert({
+        user_id: session.user.id,
+        link_id: reviewLink.id,
+        channel: "email",
+        recipient,
+        business_name,
+        link_url,
+      });
+    }
+
     return Response.json({ ok: true });
   }
 

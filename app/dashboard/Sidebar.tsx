@@ -16,7 +16,7 @@ const NAV = [
   { href: "/dashboard/settings", icon: "⚙️", label: "Paramètres" },
 ];
 
-export default function Sidebar({ userEmail }: { userEmail: string }) {
+export default function Sidebar({ userEmail, onClose }: { userEmail: string; onClose?: () => void }) {
   const pathname = usePathname();
   const router = useRouter();
   const supabase = createClient();
@@ -32,6 +32,16 @@ export default function Sidebar({ userEmail }: { userEmail: string }) {
       className="w-64 flex-shrink-0 flex flex-col text-white min-h-screen"
       style={{ background: "linear-gradient(180deg, #667eea 0%, #764ba2 100%)" }}
     >
+      {/* Bouton fermer sur mobile */}
+      {onClose && (
+        <button
+          onClick={onClose}
+          className="md:hidden absolute top-4 right-4 text-white/70 hover:text-white p-1 cursor-pointer"
+          aria-label="Fermer"
+        >
+          ✕
+        </button>
+      )}
       {/* Logo */}
       <div className="px-6 py-6 border-b border-white/20">
         <Link href="/" className="hover:opacity-90 transition-opacity cursor-pointer" style={{ display: "inline-flex" }}>
@@ -48,6 +58,7 @@ export default function Sidebar({ userEmail }: { userEmail: string }) {
             <Link
               key={item.href}
               href={item.href}
+              onClick={onClose}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                 active
                   ? "bg-white/20 text-white"
