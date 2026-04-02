@@ -10,6 +10,21 @@ export async function DELETE() {
 
   const userId = session.user.id;
 
+  // Résilier l'abonnement Stripe si existant
+  const { data: subscription } = await supabase
+    .from("subscriptions")
+    .select("stripe_subscription_id")
+    .eq("user_id", userId)
+    .eq("status", "active")
+    .single();
+
+  if (subscription?.stripe_subscription_id) {
+    await fetch(`https://api.stripe.com/v1/subscriptions/${subscription.stripe_subscription_id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${process.env.STRIPE_SECRET_KEY!}` },
+    });
+  }
+
   // Supprimer les données utilisateur
   await supabase.from("review_requests").delete().eq("user_id", userId);
   await supabase.from("review_links").delete().eq("user_id", userId);
