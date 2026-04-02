@@ -19,7 +19,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   const { data: subscription } = await supabase
     .from("subscriptions")
-    .select("status")
+    .select("status, plan")
     .eq("user_id", user.id)
     .eq("status", "active")
     .single();
@@ -28,9 +28,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
     return <Paywall />;
   }
 
+  const isPro = subscription.plan === "pro";
+
   return (
     <>
-      <DashboardShell userEmail={user.email ?? ""}>{children}</DashboardShell>
+      <DashboardShell userEmail={user.email ?? ""} isPro={isPro}>{children}</DashboardShell>
       <SupportChat userEmail={user.email ?? ""} />
     </>
   );

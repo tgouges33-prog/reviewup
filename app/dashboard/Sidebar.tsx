@@ -6,17 +6,17 @@ import { createClient } from "@/lib/supabase/client";
 import Logo from "@/components/Logo";
 
 const NAV = [
-  { href: "/dashboard", icon: "📊", label: "Vue générale" },
-  { href: "/dashboard/optimization", icon: "🚀", label: "Optimisation GMB" },
-  { href: "/dashboard/collect", icon: "💌", label: "Collecte d'avis" },
-  { href: "/dashboard/reviews", icon: "⭐", label: "Avis & Feedbacks" },
-  { href: "/dashboard/analytics", icon: "📈", label: "Analytics" },
-  { href: "/dashboard/gmb", icon: "🏢", label: "Ma fiche GMB" },
-  { href: "/dashboard/gmb-connect", icon: "🔗", label: "Connexion GMB" },
-  { href: "/dashboard/settings", icon: "⚙️", label: "Paramètres" },
+  { href: "/dashboard", icon: "📊", label: "Vue générale", pro: false },
+  { href: "/dashboard/optimization", icon: "🚀", label: "Optimisation GMB", pro: false },
+  { href: "/dashboard/collect", icon: "💌", label: "Collecte d'avis", pro: true },
+  { href: "/dashboard/reviews", icon: "⭐", label: "Avis & Feedbacks", pro: false },
+  { href: "/dashboard/analytics", icon: "📈", label: "Analytics", pro: false },
+  { href: "/dashboard/gmb", icon: "🏢", label: "Ma fiche GMB", pro: false },
+  { href: "/dashboard/gmb-connect", icon: "🔗", label: "Connexion GMB", pro: false },
+  { href: "/dashboard/settings", icon: "⚙️", label: "Paramètres", pro: false },
 ];
 
-export default function Sidebar({ userEmail, onClose }: { userEmail: string; onClose?: () => void }) {
+export default function Sidebar({ userEmail, isPro, onClose }: { userEmail: string; isPro?: boolean; onClose?: () => void }) {
   const pathname = usePathname();
   const router = useRouter();
   const supabase = createClient();
@@ -66,7 +66,10 @@ export default function Sidebar({ userEmail, onClose }: { userEmail: string; onC
               }`}
             >
               <span>{item.icon}</span>
-              {item.label}
+              <span className="flex-1">{item.label}</span>
+              {item.pro && !isPro && (
+                <span className="text-xs bg-white/20 text-white px-2 py-0.5 rounded-full">Pro</span>
+              )}
             </Link>
           );
         })}

@@ -5,9 +5,11 @@ import Sidebar from "./Sidebar";
 
 export default function DashboardShell({
   userEmail,
+  isPro,
   children,
 }: {
   userEmail: string;
+  isPro: boolean;
   children: React.ReactNode;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -26,7 +28,7 @@ export default function DashboardShell({
       <div className={`fixed inset-y-0 left-0 z-30 transition-transform duration-300 md:static md:translate-x-0 md:z-auto ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}>
-        <Sidebar userEmail={userEmail} onClose={() => setSidebarOpen(false)} />
+        <Sidebar userEmail={userEmail} isPro={isPro} onClose={() => setSidebarOpen(false)} />
       </div>
 
       {/* Main */}
