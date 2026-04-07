@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getAccounts, getLocations, getLocation, getReviews } from "@/lib/gmb";
 import Link from "next/link";
 import OptimizationClient from "./OptimizationClient";
+import OptimizationUpgradeGate from "./OptimizationUpgradeGate";
 
 const STAR_MAP: Record<string, number> = { ONE: 1, TWO: 2, THREE: 3, FOUR: 4, FIVE: 5 };
 
@@ -83,6 +84,15 @@ function computeScore(location: any, reviews: any[]) {
 export default async function OptimizationPage() {
   const supabase = await createClient();
   const { data: { session } } = await supabase.auth.getSession();
+
+  const { data: subscription } = await supabase
+    .from("subscriptions")
+    .select("plan, status")
+    .eq("user_id", session?.user?.id ?? "")
+    .eq("status", "active")
+    .single();
+
+  const isFree = !subscription;
 
   const { data: tokenData } = await supabase
     .from("user_tokens")
@@ -249,8 +259,11 @@ export default async function OptimizationPage() {
                       </span>
                     </div>
                     <p className="text-xs text-gray-500 mt-0.5">{item.description}</p>
-                    {!item.done && (
+                    {!item.done && !isFree && (
                       <p className="text-xs text-orange-700 mt-1.5 font-medium">→ {item.tip}</p>
+                    )}
+                    {!item.done && isFree && (
+                      <p className="text-xs text-[#667eea] mt-1.5 font-medium">🔒 Mettez à niveau pour voir la recommandation</p>
                     )}
                   </div>
                 </div>
@@ -259,7 +272,11 @@ export default async function OptimizationPage() {
           </div>
 
           {/* Suggestions IA */}
-          <OptimizationClient gmbData={gmbData} score={score} locationName={location?.title ?? ""} />
+          {isFree ? (
+            <OptimizationUpgradeGate />
+          ) : (
+            <OptimizationClient gmbData={gmbData} score={score} locationName={location?.title ?? ""} />
+          )}
 
         </div>
       </div>

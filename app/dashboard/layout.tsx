@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import DashboardShell from "./DashboardShell";
-import Paywall from "./Paywall";
 import SupportChat from "@/components/SupportChat";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -19,16 +18,19 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   const { data: subscription } = await supabase
     .from("subscriptions")
-    .select("status, plan")
+    .select("status, plan, cancel_at_period_end, period_end")
     .eq("user_id", user.id)
     .eq("status", "active")
     .single();
 
-  if (!subscription) {
-    return <Paywall />;
-  }
+  const now = new Date().toISOString();
+  const hasActiveSubscription = subscription && (
+    !subscription.cancel_at_period_end ||
+    (subscription.period_end && subscription.period_end > now)
+  );
 
-  const isPro = subscription.plan === "pro";
+  const plan = hasActiveSubscription ? (subscription.plan ?? "free") : "free";
+  const isPro = plan === "pro";
 
   return (
     <>
