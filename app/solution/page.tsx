@@ -100,7 +100,7 @@ export default function SolutionPage() {
                 href="/login"
                 className="bg-white text-[#667eea] font-bold px-10 py-4 rounded-full text-base hover:-translate-y-0.5 hover:shadow-2xl transition-all"
               >
-                Essayer gratuitement →
+                Commencer gratuitement →
               </Link>
               <Link
                 href="/#pricing"
@@ -109,6 +109,7 @@ export default function SolutionPage() {
                 Voir les tarifs
               </Link>
             </div>
+            <p className="text-white/60 text-xs mt-4">Gratuit sans carte bancaire · Mettez à niveau quand vous voulez</p>
           </div>
         </section>
 
@@ -239,7 +240,7 @@ export default function SolutionPage() {
                 className="text-white font-bold px-10 py-4 rounded-full text-base hover:-translate-y-0.5 hover:shadow-xl transition-all"
                 style={{ background: "linear-gradient(135deg, #667eea, #764ba2)" }}
               >
-                Commencer maintenant →
+                Commencer gratuitement →
               </Link>
               <Link
                 href="/#pricing"
@@ -248,7 +249,7 @@ export default function SolutionPage() {
                 Voir les offres
               </Link>
             </div>
-            <p className="text-gray-400 text-xs mt-4">Sans engagement · Résultats visibles en 30 jours</p>
+            <p className="text-gray-400 text-xs mt-4">Gratuit sans carte bancaire · Mettez à niveau quand vous voulez</p>
           </div>
         </section>
 
