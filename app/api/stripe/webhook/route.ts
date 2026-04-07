@@ -36,7 +36,7 @@ export async function POST(request: Request) {
       return new Response("user_id manquant", { status: 400 });
     }
 
-    await supabase.from("subscriptions").upsert({
+    const { error } = await supabase.from("subscriptions").upsert({
       user_id: userId,
       stripe_customer_id: session.customer,
       stripe_subscription_id: session.subscription,
@@ -44,6 +44,11 @@ export async function POST(request: Request) {
       status: "active",
       email,
     }, { onConflict: "user_id" });
+
+    if (error) {
+      console.error("Supabase upsert error:", JSON.stringify(error));
+      return new Response("Supabase error: " + error.message, { status: 500 });
+    }
   }
 
   if (event.type === "customer.subscription.deleted") {
