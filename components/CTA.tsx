@@ -19,7 +19,7 @@ export default function CTA() {
           Prêt à transformer votre présence Google ?
         </h2>
         <p className="text-lg opacity-95 mb-8">
-          Rejoignez les 500+ entreprises qui font confiance à Klevano
+          Rejoignez les 150+ entreprises qui font confiance à Klevano
         </p>
         <button
           {...CAL_ATTRS}

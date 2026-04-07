@@ -1,5 +1,5 @@
 const stats = [
-  { value: "500+", label: "Entreprises satisfaites" },
+  { value: "150+", label: "Entreprises satisfaites" },
   { value: "+45%", label: "Avis en 3 mois (moyenne)" },
   { value: "4.8/5", label: "Notre notation" },
   { value: "24/7", label: "Automatisation active" },
