@@ -1,6 +1,7 @@
 export const runtime = "nodejs";
 
 import { PLANS, type PlanKey } from "@/lib/stripe";
+import { createClient } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
   const { plan } = await request.json() as { plan: PlanKey };
@@ -8,6 +9,10 @@ export async function POST(request: Request) {
   if (!PLANS[plan]) {
     return Response.json({ error: "Plan invalide" }, { status: 400 });
   }
+
+  const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) return Response.json({ error: "Non authentifié" }, { status: 401 });
 
   const appUrl = new URL(request.url).origin;
   const secretKey = process.env.STRIPE_SECRET_KEY!;
@@ -21,6 +26,9 @@ export async function POST(request: Request) {
     cancel_url: `${appUrl}/#pricing`,
     locale: "fr",
     "metadata[plan]": plan,
+    "metadata[user_id]": session.user.id,
+    "subscription_data[metadata][plan]": plan,
+    "subscription_data[metadata][user_id]": session.user.id,
   });
 
   try {
