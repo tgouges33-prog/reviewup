@@ -250,7 +250,7 @@ export const posts: Post[] = [
         "Oublier de mettre à jour vos catégories si votre activité évolue",
       ]},
       { type: "h2", content: "Optimisez toute votre fiche avec Klevano" },
-      { type: "p", content: "Les catégories ne sont que l'un des 50+ signaux que Google prend en compte pour le classement local. Klevano analyse l'intégralité de votre fiche — catégories, photos, avis, posts, description — et vous donne un score avec les actions prioritaires. Essai gratuit de 14 jours sur klevano.com." },
+      { type: "p", content: "Les catégories ne sont que l'un des 50+ signaux que Google prend en compte pour le classement local. Klevano analyse l'intégralité de votre fiche — catégories, photos, avis, posts, description — et vous donne un score avec les actions prioritaires. Commencez gratuitement sur klevano.com." },
     ],
   },
   {
@@ -336,9 +336,8 @@ export const posts: Post[] = [
       { type: "p", content: "Votre site web mentionne-t-il votre adresse et votre numéro de téléphone exactement comme sur votre fiche GMB ? Avez-vous le Schema Markup LocalBusiness sur votre site ? Google croise ces informations pour valider la légitimité de votre fiche." },
       { type: "h2", content: "Point 10 — Insights et performances" },
       { type: "p", content: "Regardez vos statistiques Google My Business : combien de fois votre fiche a-t-elle été vue ce mois-ci ? Combien d'appels, de clics vers votre site, de demandes d'itinéraire ? Si ces chiffres stagnent ou baissent, c'est le signal qu'il faut agir sur l'un des 9 points précédents." },
-      { type: "tip", content: "Envie d'avoir votre score GMB en 2 minutes ? Faites notre audit gratuit en ligne sur klevano.com/audit — il analyse ces 10 points et vous donne un plan d'action personnalisé immédiatement." },
       { type: "h2", content: "Automatisez votre optimisation avec Klevano" },
-      { type: "p", content: "Cet audit manuel prend 30 à 45 minutes. Avec Klevano, vous disposez d'un tableau de bord qui suit en temps réel votre score d'optimisation, vous alerte quand un avis nécessite une réponse, et vous suggère les actions prioritaires semaine après semaine. Essai gratuit 14 jours sur klevano.com." },
+      { type: "p", content: "Cet audit manuel prend 30 à 45 minutes. Avec Klevano, vous disposez d'un tableau de bord qui suit en temps réel votre score d'optimisation, vous alerte quand un avis nécessite une réponse, et vous suggère les actions prioritaires semaine après semaine. Commencez gratuitement sur klevano.com." },
     ],
   },
 ];

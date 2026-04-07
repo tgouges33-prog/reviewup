@@ -96,6 +96,12 @@ export default async function DashboardPage() {
   }));
 
   // Checklist selon le plan
+  const checklistFree = [
+    { label: "Connecter Google My Business", done: gmbConnected, href: "/dashboard/gmb-connect" },
+    { label: "Voir le score de santé de votre fiche", done: gmbConnected, href: "/dashboard/optimization" },
+    { label: "Mettre à niveau pour optimiser votre fiche", done: false, href: "/#pricing" },
+  ];
+
   const checklistEssentiel = [
     { label: "Connecter Google My Business", done: gmbConnected, href: "/dashboard/gmb-connect" },
     { label: "Renseigner votre nom d'établissement", done: !!profile?.business_name, href: "/dashboard/settings" },
@@ -114,7 +120,7 @@ export default async function DashboardPage() {
     { label: "Optimiser votre fiche Google My Business", done: false, href: "/dashboard/optimization" },
   ];
 
-  const checklist = isPro ? checklistPro : checklistEssentiel;
+  const checklist = isPro ? checklistPro : subscription?.plan === "essentiel" ? checklistEssentiel : checklistFree;
   const checklistDone = checklist.filter((c) => c.done).length;
   const showChecklist = checklistDone < checklist.length;
 
