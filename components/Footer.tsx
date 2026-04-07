@@ -8,6 +8,8 @@ export default function Footer() {
         <a href="mailto:hello@klevano.com" className="underline hover:text-white transition-colors">hello@klevano.com</a>
       </p>
       <p className="text-gray-400 mb-2 space-x-3">
+        <Link href="/solution" className="underline hover:text-white transition-colors">Notre solution</Link>
+        <span>·</span>
         <Link href="/blog" className="underline hover:text-white transition-colors">Blog</Link>
         <span>·</span>
         <Link href="/mentions-legales" className="underline hover:text-white transition-colors">Mentions légales</Link>
