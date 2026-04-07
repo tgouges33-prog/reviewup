@@ -29,6 +29,7 @@ export async function POST(request: Request) {
     "metadata[user_id]": session.user.id,
     "subscription_data[metadata][plan]": plan,
     "subscription_data[metadata][user_id]": session.user.id,
+    allow_promotion_codes: "true",
   });
 
   try {
