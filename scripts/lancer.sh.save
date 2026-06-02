@@ -1,0 +1,4 @@
+node scripts/send-leads.js --input leads.csv --sender Thomas --senderemail thomas@klevano.com      
+  --dryrun
+bash scripts/lancer.sh
+

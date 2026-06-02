@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 
-// scraper-leads.js — Scraping de prospects GMB via Google Places API
-// Usage: node scripts/scraper-leads.js --category coiffeur --city Bordeaux --max 30
+// scraper-leads.js — Scraping de prospects GMB via Google Places API (New)
+// Usage: node scripts/scraper-leads.js --category coiffeur --city Bordeaux --max 20
 
 const https = require('https');
 const fs = require('fs');
@@ -38,35 +38,42 @@ function parseArgs() {
   return result;
 }
 
-function httpsGet(url) {
+function httpsPost(url, body, headers) {
   return new Promise((resolve, reject) => {
-    https.get(url, (res) => {
+    const bodyStr = JSON.stringify(body);
+    const options = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(bodyStr), ...headers },
+    };
+    const req = https.request(url, options, (res) => {
       let data = '';
       res.on('data', (chunk) => { data += chunk; });
       res.on('end', () => {
         try { resolve(JSON.parse(data)); }
-        catch (e) { reject(new Error('Réponse API invalide : ' + data.slice(0, 200))); }
+        catch (e) { reject(new Error('Réponse API invalide : ' + data.slice(0, 300))); }
       });
-    }).on('error', reject);
+    });
+    req.on('error', reject);
+    req.write(bodyStr);
+    req.end();
   });
 }
 
 async function textSearch(query, apiKey, pageToken) {
-  let url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(query)}&language=fr&key=${apiKey}`;
-  if (pageToken) url += `&pagetoken=${encodeURIComponent(pageToken)}`;
-  return httpsGet(url);
-}
-
-async function placeDetails(placeId, apiKey) {
-  const fields = 'name,formatted_address,formatted_phone_number,website,rating,user_ratings_total';
-  const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${encodeURIComponent(placeId)}&fields=${fields}&language=fr&key=${apiKey}`;
-  return httpsGet(url);
+  const body = { textQuery: query, languageCode: 'fr', pageSize: 20 };
+  if (pageToken) body.pageToken = pageToken;
+  const fields = 'places.id,places.displayName,places.formattedAddress,places.nationalPhoneNumber,places.websiteUri,places.rating,places.userRatingCount,nextPageToken';
+  return httpsPost(
+    'https://places.googleapis.com/v1/places:searchText',
+    body,
+    { 'X-Goog-Api-Key': apiKey, 'X-Goog-FieldMask': fields }
+  );
 }
 
 function scoreLead(place) {
-  const avis = place.user_ratings_total || 0;
+  const avis = place.userRatingCount || 0;
   const note = place.rating || 0;
-  const hasSite = !!place.website;
+  const hasSite = !!place.websiteUri;
   let score = 0;
   if (avis < 50) score += 2;
   if (note < 4.0 && note > 0) score += 2;
@@ -101,26 +108,19 @@ async function main() {
 
   if (!args.category || !args.city) {
     console.error('\nErreur : --category et --city sont requis.');
-    console.error('Exemple : node scripts/scraper-leads.js --category coiffeur --city Bordeaux --max 30\n');
+    console.error('Exemple : node scripts/scraper-leads.js --category coiffeur --city Bordeaux --max 20\n');
     process.exit(1);
   }
 
   const apiKey = process.env.GOOGLE_PLACES_API_KEY;
   if (!apiKey) {
-    console.error('\n======================================================');
-    console.error('  Clé API Google Places manquante !');
-    console.error('======================================================');
-    console.error('\n1. Allez sur https://console.cloud.google.com/');
-    console.error('2. Créez un projet et activez "Places API"');
-    console.error('3. Générez une clé API dans "Identifiants"');
-    console.error('\nPuis ajoutez dans .env.local :');
-    console.error('  GOOGLE_PLACES_API_KEY=votre_clé\n');
+    console.error('\nClé API manquante — ajoutez GOOGLE_PLACES_API_KEY dans .env.local\n');
     process.exit(1);
   }
 
   const query = `${args.category} ${args.city}`;
   console.log(`\nRecherche : "${query}" (max ${args.max} résultats)`);
-  console.log('Appel Google Places API...\n');
+  console.log('Appel Google Places API (New)...\n');
 
   const places = [];
   let pageToken = null;
@@ -132,53 +132,41 @@ async function main() {
     try { response = await textSearch(query, apiKey, pageToken); }
     catch (err) { console.error('Erreur recherche : ' + err.message); break; }
 
-    if (response.status === 'REQUEST_DENIED') {
-      console.error('\nErreur API : ' + (response.error_message || 'Clé invalide ou Places API non activée.'));
+    if (response.error) {
+      console.error('\nErreur API : ' + (response.error.message || JSON.stringify(response.error)));
       process.exit(1);
     }
-    if (response.status === 'OVER_QUERY_LIMIT') {
-      console.error('\nQuota API dépassé. Attendez ou vérifiez votre plan Google Maps.\n');
-      process.exit(1);
-    }
-    if (!response.results || response.results.length === 0) {
+    if (!response.places || response.places.length === 0) {
       console.log('Aucun résultat trouvé.'); break;
     }
 
-    for (const r of response.results) {
+    for (const r of response.places) {
       if (places.length >= args.max) break;
-      places.push({ place_id: r.place_id, name: r.name });
+      places.push(r);
     }
-    pageToken = response.next_page_token || null;
+    pageToken = response.nextPageToken || null;
     page++;
     if (!pageToken || places.length >= args.max) break;
   }
 
-  console.log(`${places.length} établissement(s) trouvé(s). Récupération des détails...\n`);
+  console.log(`${places.length} établissement(s) trouvé(s).\n`);
 
   const leads = [];
   for (let i = 0; i < places.length; i++) {
     const p = places[i];
-    process.stdout.write(`  [${i + 1}/${places.length}] ${p.name}...`);
-    let details = {};
-    try {
-      const r = await placeDetails(p.place_id, apiKey);
-      if (r.status === 'OK') details = r.result;
-      else process.stdout.write(` (erreur: ${r.status})`);
-    } catch (err) { process.stdout.write(` (erreur: ${err.message})`); }
-
-    const { scoreLabel, priorite } = scoreLead(details);
+    const name = p.displayName?.text || p.displayName || 'Inconnu';
+    const { scoreLabel, priorite } = scoreLead(p);
+    process.stdout.write(`  [${i + 1}/${places.length}] ${name} → ${scoreLabel}\n`);
     leads.push({
-      name: details.name || p.name,
-      address: details.formatted_address || '',
-      phone: details.formatted_phone_number || '',
-      website: details.website || '',
-      rating: details.rating !== undefined ? details.rating : '',
-      totalRatings: details.user_ratings_total !== undefined ? details.user_ratings_total : '',
+      name,
+      address: p.formattedAddress || '',
+      phone: p.nationalPhoneNumber || '',
+      website: p.websiteUri || '',
+      rating: p.rating !== undefined ? p.rating : '',
+      totalRatings: p.userRatingCount !== undefined ? p.userRatingCount : '',
       scoreLabel,
       priorite,
     });
-    process.stdout.write(` → ${scoreLabel}\n`);
-    if (i < places.length - 1) await wait(200);
   }
 
   const csvContent = generateCsv(leads);
